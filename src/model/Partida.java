@@ -6,6 +6,12 @@ class Partida {
 	Jogador jogador1, jogador2;
 	Jogador jogadorDaVez = null;
 	
+	protected Partida(Jogador jogador1, Jogador jogador2) {
+		this.jogador1 = jogador1;
+		this.jogador2 = jogador2;
+		this.jogadorDaVez = this.jogador1;
+	}
+	
 	protected Jogador getJogador1() {
 		return jogador1;
 	}
