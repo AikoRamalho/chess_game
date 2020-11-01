@@ -55,6 +55,9 @@ abstract class Peca {
 		Tabuleiro t = Tabuleiro.getTabuleiro();
 		Rei rei = null;
 		
+		if(this.getLinha() == novaLinha && this.getColuna() == novaColuna)
+			return false;
+		
 		for(int linha = 0; linha < 8; linha++) {
 			for(int coluna = 0; coluna < 8; coluna++) {
 				if(t.mPecas[linha][coluna] instanceof Rei &&
