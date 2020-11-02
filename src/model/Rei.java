@@ -4,194 +4,43 @@ import common.Cor;
 
 class Rei extends Peca {
 
-	public Rei(Cor cor, int x, int y) {
-		super(cor, x, y);
+	public Rei(Cor cor) {
+		super(cor);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean isXeque() {
-		Tabuleiro t = Tabuleiro.getTabuleiro();
-		
-		// Varifica em linha horizontal
-		for(int coluna = 0; coluna < this.getColuna(); coluna++) { // da esquerda ate o rei
-			if(t.mPecas[this.getLinha()][coluna] != null) {
-				if (t.mPecas[this.getLinha()][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[this.getLinha()][coluna] instanceof Rainha) ||
-						(t.mPecas[this.getLinha()][coluna] instanceof Torre)) {
-						return true;
-				}
-			}
-		}
-		for(int coluna = this.getColuna(); coluna < 8; coluna++) { // do rei ate o final da linha
-			if(t.mPecas[this.getLinha()][coluna] != null) {
-				if (t.mPecas[this.getLinha()][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[this.getLinha()][coluna] instanceof Rainha) ||
-						(t.mPecas[this.getLinha()][coluna] instanceof Torre)) {
-						return true;
-				}
-			}
-		}
-		// Verifica em linha vertical
-		for(int linha = 0; linha < this.getColuna(); linha++) { // da costas do rei ate o fim
-			if(t.mPecas[linha][this.getColuna()] != null) {
-				if (t.mPecas[linha][this.getColuna()].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][this.getColuna()] instanceof Rainha) ||
-						(t.mPecas[linha][this.getColuna()] instanceof Torre)) {
-						return true;
-				}
-			}
-		}
-		for(int linha = this.getLinha(); linha < 8; linha++) { // do rei ate o final da linha
-			if(t.mPecas[linha][this.getColuna()] != null) {
-				if (t.mPecas[linha][this.getColuna()].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][this.getColuna()] instanceof Rainha) ||
-						(t.mPecas[linha][this.getColuna()] instanceof Torre)) {
-						return true;
-				}
-			}
-		}
-		// Verifica em diagonal
-		for(int linha = this.getLinha()+1, coluna = this.getColuna()+1; linha < 8 && coluna < 8; linha++, coluna++) { // do rei ate o final da linha
-			if(t.mPecas[linha][coluna] != null) {
-				if (t.mPecas[linha][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][coluna] instanceof Rainha) ||
-						(t.mPecas[linha][coluna] instanceof Bispo)) {
-						return true;
-				}
-			}
-		}
-		for(int linha = this.getLinha()-1, coluna = this.getColuna()-1; linha >= 0 && coluna >= 0; linha--, coluna--) { // do rei ate o final da linha
-			if(t.mPecas[linha][coluna] != null) {
-				if (t.mPecas[linha][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][coluna] instanceof Rainha) ||
-						(t.mPecas[linha][coluna] instanceof Bispo)) {
-						return true;
-				}
-			}
-		}
-		for(int linha = this.getLinha()+1, coluna = this.getColuna()-1; linha < 8 && coluna >= 0; linha++, coluna--) { // do rei ate o final da linha
-			if(t.mPecas[linha][coluna] != null) {
-				if (t.mPecas[linha][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][coluna] instanceof Rainha) ||
-						(t.mPecas[linha][coluna] instanceof Bispo)) {
-						return true;
-				}
-			}
-		}
-		for(int linha = this.getLinha()-1, coluna = this.getColuna()+1; linha >= 0 && coluna < 8; linha--, coluna++) { // do rei ate o final da linha
-			if(t.mPecas[linha][coluna] != null) {
-				if (t.mPecas[linha][coluna].getCor() == this.getCor()) { // ta protegido
-					continue;
-				}
-				if((t.mPecas[linha][coluna] instanceof Rainha) ||
-						(t.mPecas[linha][coluna] instanceof Bispo)) {
-						return true;
-				}
-			}
-		}
-		
-		
-		int linha = this.getLinha();
-		int coluna = this.getColuna();
-		// Verifica Cavalo
-		if((linha+2 < 8 && coluna+1 < 8) &&
-		   (t.mPecas[linha+2][coluna+1] != null)	&&
-		   (t.mPecas[linha+2][coluna+1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+2][coluna+1] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha+2 < 8 && coluna-1 >= 0) &&
-		   (t.mPecas[linha+2][coluna-1] != null)	&&
-		   (t.mPecas[linha+2][coluna-1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+2][coluna-1] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha-2 >=0 && coluna+1 < 8) &&
-		   (t.mPecas[linha-2][coluna+1] != null)	&&
-		   (t.mPecas[linha-2][coluna+1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-2][coluna+1] instanceof Cavalo) ) {
-				return true;
-			}
-		
-		if((linha-2 >= 0 && coluna-1 >= 0) &&
-		   (t.mPecas[linha-2][coluna-1] != null)	&&
-		   (t.mPecas[linha-2][coluna-1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-2][coluna-1] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha+1 < 8 && coluna+2 < 8) &&
-		   (t.mPecas[linha+1][coluna+2] != null)	&&
-		   (t.mPecas[linha+1][coluna+2].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+1][coluna+2] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha-1 >= 0 && coluna+2 < 8) &&
-		   (t.mPecas[linha-1][coluna+2] != null)	&&
-		   (t.mPecas[linha-1][coluna+2].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-1][coluna+2] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha+1 < 8 && coluna-2 >= 0) &&
-		   (t.mPecas[linha+1][coluna-2] != null)	&&
-		   (t.mPecas[linha+1][coluna-2].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+1][coluna-2] instanceof Cavalo) ) {
-				return true;
-			}
-		if((linha-1 >= 0 && coluna-2 >= 0) &&
-		   (t.mPecas[linha-1][coluna-2] != null)	&&
-		   (t.mPecas[linha-1][coluna-2].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-1][coluna-2] instanceof Cavalo) ) {
-				return true;
-			}
-		
-		// Verifica Peao
-		if((linha+1 < 8 && coluna+1 < 8) &&
-		   (t.mPecas[linha+1][coluna+1] != null)	&&
-		   (t.mPecas[linha+1][coluna+1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+1][coluna+1] instanceof Peao) ) {
-				return true;
-			}
-		if((linha-1 >= 0 && coluna+1 < 8) &&
-		   (t.mPecas[linha-1][coluna+1] != null)	&&
-		   (t.mPecas[linha-1][coluna+1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-1][coluna+1] instanceof Peao) ) {
-				return true;
-			}
-		
-		if((linha-1 >= 0 && coluna-1 >= 0) &&
-		   (t.mPecas[linha-1][coluna-1] != null)	&&
-		   (t.mPecas[linha-1][coluna-1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha-1][coluna-1] instanceof Peao) ) {
-				return true;
-			}
-		if((linha+1 < 8 && coluna-1 >= 0) &&
-		   (t.mPecas[linha+1][coluna-1] != null)	&&
-		   (t.mPecas[linha+1][coluna-1].getCor() != this.getCor()) &&
-		   (t.mPecas[linha+1][coluna-1] instanceof Peao) ) {
-				return true;
-			}
-			
-		return false;
-	}
+	/*
+	 * boolean isChecked() {
+	 //   /* Check straight lines */
+	 //   for (directions) { // up, down, left and right
+	 //       for (square in direction) { // square by square from the king and out in the current direction
+	 //           if (square contains opponent rook or queen)
+	 //               return true;
+	 //           else if (square contains friendly piece)
+	 //               continue;
 
-	@Override
-	public boolean movimentoValido(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
+	    /* Check diagonals */
+	 //   for (directions) { // left-up, left-down, right-up and right-down
+	 //       for (square in direction) { // square by square from the king and out in the current direction
+	 //           if (square contains opponent bishop or queen)
+	 //               return true;
+	 //           else if (square contains friendly piece)
+	 //               continue;
+
+	    /* Check pawns */
+	 //   if (squares where pawns would threaten the king contains pawns)
+	 //       return true;
+
+	    /* Check king, this is to find if a square is legal to move to only */
+	//    if (squares where a king would threaten the king contains king)
+	//        return true;
+
+	    /* Check knights */
+	//    if (squares where knights would threaten the king contains knights)
+	//        return true;
+	
+	boolean isChecked () {
+		Tabuleiro 
 	}
 
 }

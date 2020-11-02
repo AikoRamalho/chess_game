@@ -3,39 +3,32 @@ package model;
 import common.Cor;
 
 public class ModelFacade {
-	private Tabuleiro tb = Tabuleiro.getTabuleiro();
+	private Tabuleiro tb = Tabuleiro.getTabuleiro(); // pega o static tabuleiro
 	Partida partida;
 	
 	public Partida getPartida() {
 		return partida;
 	}
 
-	public void setPartida(String nome1,Cor cor1, String nome2, Cor cor2) {
-		this.partida = new Partida(new Jogador(nome1, cor1), new Jogador(nome2, cor2));
+	public void setPartida(String nome1, String nome2) {
+		this.partida = new Partida(new Jogador(nome1, Cor.BRANCO), new Jogador(nome2, Cor.PRETO));
 	}
 
 	public void iniciaTabuleiro() {
-		tb.setTabuleiro();
+		Tabuleiro.getTabuleiro();
 	}
 	
 	public void reiniciaTabuleiro() {
-		tb.setTabuleiro();
+		Tabuleiro.deleteTabuleiro();
 	}
 	
-	public boolean selecionaPeca(int linha, int coluna) {
-		if (tb.mPecas[linha][coluna] == null) 
-			return false;
-		else if(tb.mPecas[linha][coluna].getCor() != partida.getJogadorDaVez().getCor()) // Nao pertence ao jogador da vez
-			return false;
-		return true;
+	public boolean selecionaPeca(int linhaPecaSelecionada, int colunaPecaSelecionada) { // indica se a peca eh do jogador da vez
+		return tb.selecionaPeca(linhaPecaSelecionada, colunaPecaSelecionada, partida.jogadorDaVez);
 	}
 	
-	public boolean selecionaCasa(int linha, int coluna) {
-		if(tb.mPecas[linha][coluna] == null)
-			return false;
-		else if(tb.mPecas[linha][coluna].getCor() == partida.getJogadorDaVez().getCor()) // Pertence ao Jogador da Vez
-				return false;
-		return true;
+	public boolean selecionaCasa(int linhaCasaDesejada, int colunaCasaDesejada) {
+		Peca aux = tb.getPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
+		return false;
 	}
 	
 }
