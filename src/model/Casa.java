@@ -11,6 +11,15 @@ class Casa {
 		this.setY(y);
 		this.setPeca(peca);
 	}
+	
+
+	public void ocupaCasa(Peca peca){
+        if(this.peca != null) {
+           this.peca.setEstado();
+        }
+        
+        this.peca = peca;
+    }
 
 	public Peca getPeca() {
 		return peca;

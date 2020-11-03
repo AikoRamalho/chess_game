@@ -3,7 +3,8 @@ package model;
 import common.Cor;
 
 public class ModelFacade {
-	private Tabuleiro tb = Tabuleiro.getTabuleiro(); // pega o static tabuleiro
+	private Tabuleiro tb; // pega o static tabuleiro
+	Jogador jogador1, jogador2;
 	Partida partida;
 	
 	public Partida getPartida() {
@@ -11,11 +12,13 @@ public class ModelFacade {
 	}
 
 	public void setPartida(String nome1, String nome2) {
-		this.partida = new Partida(new Jogador(nome1, Cor.BRANCO), new Jogador(nome2, Cor.PRETO));
+		jogador1 = new Jogador(nome1, Cor.BRANCO);
+		jogador2 = new Jogador(nome2, Cor.PRETO);
+		this.partida = new Partida(jogador1, jogador2);
 	}
 
 	public void iniciaTabuleiro() {
-		Tabuleiro.getTabuleiro();
+		Tabuleiro.getTabuleiro(jogador1, jogador2);
 	}
 	
 	public void reiniciaTabuleiro() {
@@ -31,4 +34,7 @@ public class ModelFacade {
 		return false;
 	}
 	
+    public static void main(String[] args) {
+		Tabuleiro.getTabuleiro(new Jogador("aiko", Cor.BRANCO), new Jogador("ajsdkljas", Cor.PRETO));
+    }
 }

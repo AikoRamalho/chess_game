@@ -4,8 +4,8 @@ import common.Cor;
 
 class Peao extends Peca {
 
-	public Peao(Cor cor) {
-		super(cor);
+	public Peao(Cor cor, int x, int y) {
+		super(cor, x, y);
 		// TODO Auto-generated constructor stub
 	}
 }
