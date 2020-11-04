@@ -8,10 +8,4 @@ class Bispo extends Peca {
 		super(cor, x, y);
 	}
 
-	@Override
-	public boolean movimentoValido(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

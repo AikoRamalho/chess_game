@@ -1,7 +1,5 @@
 package model;
 
-import common.Cor;
-
 class Partida {
 	Jogador jogador1, jogador2;
 	Jogador jogadorDaVez = null;
