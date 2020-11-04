@@ -9,18 +9,6 @@ class Rei extends Peca {
 		// TODO Auto-generated constructor stub
 	}
 	
-	/*
-	    /* Check pawns */
-	 //   if (squares where pawns would threaten the king contains pawns)
-	 //       return true;
-
-	    /* Check king, this is to find if a square is legal to move to only */
-	//    if (squares where a king would threaten the king contains king)
-	//        return true;
-
-	    /* Check knights */
-	//    if (squares where knights would threaten the king contains knights)
-	//        return true;
 	
 	private boolean checkYPositivo(int xRei, int yRei, Casa[][] tabCasas) {
 		//iterando na direção p/ cima do yRei
@@ -252,6 +240,8 @@ class Rei extends Peca {
 		
 		//checar se tem peão checando o rei
 		boolean reiChequePorPeao = checaSePeaoChecouRei(xRei, yRei, tabCasas);
+		
+		// cavalo checando o rei
 		
 		//ainda falta checar se tem um rei checando o rei mas vamos deixar isso p deois
 		

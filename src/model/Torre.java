@@ -14,7 +14,7 @@ class Torre extends Peca {
 	private List<List<Integer>> getCasasX(int x, int y, Casa[][] tabCasas) {
         List<List<Integer>> listOfLists = new ArrayList<>();
 		
-		for(int i = x; i<8; i++) {
+		for(int i = x; i<8; i++) { //iterar p/ direita da torre
 			if(tabCasas[i][y].getPeca() == null) {
 		        List<Integer> innerList = new ArrayList<>();
 				innerList.add(i);
