@@ -53,7 +53,10 @@ public class FrameInicial extends JFrame implements ActionListener {
 			this.dispose();
 			new FrameTabuleiro().setVisible(true);
         } else if (command.equals("carrega")) {
-        	JOptionPane.showMessageDialog(this, "Implementacao na 4 iteracao");
+//        	JOptionPane.showMessageDialog(this, "Implementacao na 4 iteracao");
+        	JFileChooser jFileChooser = new JFileChooser();
+        	int result = jFileChooser.showOpenDialog(new JFrame());
+        	// TODO: continuar em futura iteracao
         }
 	}
 	
