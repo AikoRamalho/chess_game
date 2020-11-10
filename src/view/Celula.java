@@ -23,7 +23,7 @@ class Celula {
 
 	protected Color getCor() {
 		if(this.marcada) {
-			return Color.GREEN;
+			return new Color(153,255,153,130);
 		}
 		return cor;
 	}
