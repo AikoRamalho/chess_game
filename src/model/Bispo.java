@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Cor;
+import common.TiposPeca;
 
 class Bispo extends Peca {
 
 	public Bispo(Cor cor, int x, int y) {
-		super(cor, x, y);
+		super(TiposPeca.BISPO,cor, x, y);
 	}
 	
 	private List<List<Integer>> getCasasDiagonalDireitaSuperior(int x, int y, Casa[][] tabCasas) { 
@@ -31,6 +32,7 @@ class Bispo extends Peca {
 					innerList.add(xPositivo);
 					innerList.add(yPositivo);
 			        listOfLists.add(innerList);
+			        break;
 				}else {
 					break; //nao precisa mais ver, pq se sao da mesma cor o restante da direcao esta invalida.
 				}
@@ -40,6 +42,7 @@ class Bispo extends Peca {
 				innerList.add(yPositivo);
 		        listOfLists.add(innerList);
 			}
+			// Sobe uma coluna e uma linha
 			xPositivo++;
 			yPositivo++;
 		}
@@ -50,58 +53,24 @@ class Bispo extends Peca {
 	private List<List<Integer>> getCasasDiagonalDireitaInferior(int x, int y, Casa[][] tabCasas) {
 		List<List<Integer>> listOfLists = new ArrayList<>();
 		
-		int xNegativo = x;
-		int yPositivo = y;
+		int xPositivo = x;
+		int yNegativo = y;
 		
-		if(xNegativo >= 0 && yPositivo < 7) {
-			xNegativo--;
-			yPositivo++;
-		}
-		
-		//iterando na diagonal direita inferior
-		while(xNegativo >= 0 && yPositivo < 8) {
-			// ver se a casa é uma peca
-			if(tabCasas[xNegativo][yPositivo].getPeca() != null) { // ve se a posicao tem uma peca
-				if(tabCasas[xNegativo][yPositivo].getPeca().getCor() != this.getCor()) { // ve se a peca é inimiga			
-					List<Integer> innerList = new ArrayList<>();
-					innerList.add(xNegativo);
-					innerList.add(yPositivo);
-			        listOfLists.add(innerList);
-				}else {
-					break; //nao precisa mais ver, pq se sao da mesma cor o restante da direcao esta invalida.
-				}
-			} else { // posicao esta livre, pois nao contem peca.
-				List<Integer> innerList = new ArrayList<>();
-				innerList.add(xNegativo);
-				innerList.add(yPositivo);
-		        listOfLists.add(innerList);
-			}
-			xNegativo--;
-			yPositivo++;
-		}
-		return listOfLists;
-	}
-	
-	private List<List<Integer>> getCasasDiagonalEsquerdaSuperior(int xRei, int yRei, Casa[][] tabCasas) {
-		List<List<Integer>> listOfLists = new ArrayList<>();
-		
-		int xPositivo = xRei;
-		int yNegativo = yRei;
-		
-		if(xPositivo < 8 && yNegativo >= 0) {
+		if(xPositivo < 7 && yNegativo >= 0) {
 			xPositivo++;
 			yNegativo--;
 		}
 		
-		// iterando na diagonal esquerda superior
-		while(xPositivo < 8 && yNegativo >= 0) {
+		//iterando na diagonal direita inferior
+		while(xPositivo >= 0 && yNegativo < 8) {
 			// ver se a casa é uma peca
 			if(tabCasas[xPositivo][yNegativo].getPeca() != null) { // ve se a posicao tem uma peca
-				if(tabCasas[xPositivo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
+				if(tabCasas[xPositivo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca é inimiga			
 					List<Integer> innerList = new ArrayList<>();
 					innerList.add(xPositivo);
 					innerList.add(yNegativo);
 			        listOfLists.add(innerList);
+			        break;
 				}else {
 					break; //nao precisa mais ver, pq se sao da mesma cor o restante da direcao esta invalida.
 				}
@@ -111,8 +80,46 @@ class Bispo extends Peca {
 				innerList.add(yNegativo);
 		        listOfLists.add(innerList);
 			}
+			// Sobe uma coluna e desce uma linha
 			xPositivo++;
 			yNegativo--;
+		}
+		return listOfLists;
+	}
+	
+	private List<List<Integer>> getCasasDiagonalEsquerdaSuperior(int xRei, int yRei, Casa[][] tabCasas) {
+		List<List<Integer>> listOfLists = new ArrayList<>();
+		
+		int xNegativo = xRei;
+		int yPositivo = yRei;
+		
+		if(xNegativo >= 0 && yPositivo < 7) {
+			xNegativo--;
+			yPositivo++;
+		}
+		
+		// iterando na diagonal esquerda superior
+		while(xNegativo >= 0 && yPositivo < 8) {
+			// ver se a casa é uma peca
+			if(tabCasas[xNegativo][yPositivo].getPeca() != null) { // ve se a posicao tem uma peca
+				if(tabCasas[xNegativo][yPositivo].getPeca().getCor() != this.getCor()) { // ve se a peca é inimiga		
+					List<Integer> innerList = new ArrayList<>();
+					innerList.add(xNegativo);
+					innerList.add(yPositivo);
+			        listOfLists.add(innerList);
+			        break;
+				}else {
+					break; //nao precisa mais ver, pq se sao da mesma cor o restante da direcao esta invalida.
+				}
+			} else { // posicao esta livre, pois nao contem peca.
+				List<Integer> innerList = new ArrayList<>();
+				innerList.add(xNegativo);
+				innerList.add(yPositivo);
+		        listOfLists.add(innerList);
+			}
+			// Desce uma coluna e sobe uma linha
+			xNegativo--;
+			yPositivo++;
 		}
 		return listOfLists;
 	}
@@ -132,11 +139,12 @@ class Bispo extends Peca {
 		while(xNegativo >= 0 && yNegativo >= 0) {
 			// ver se a casa é uma peca
 			if(tabCasas[xNegativo][yNegativo].getPeca() != null) { // ve se a posicao tem uma peca
-				if(tabCasas[xNegativo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
+				if(tabCasas[xNegativo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca é inimiga		
 					List<Integer> innerList = new ArrayList<>();
 					innerList.add(xNegativo);
 					innerList.add(yNegativo);
 			        listOfLists.add(innerList);
+			        break;
 				}else {
 					break; //nao precisa mais ver, pq se sao da mesma cor o restante da direcao esta invalida.
 				}
@@ -146,6 +154,7 @@ class Bispo extends Peca {
 				innerList.add(yNegativo);
 		        listOfLists.add(innerList);
 			}
+			// Desce uma coluna e uma linha
 			xNegativo--;
 			yNegativo--;
 		}

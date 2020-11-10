@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class Tabuleiro {
 	private Casa[][] casas = new Casa[8][8];
 	private static Tabuleiro staticTabuleiro = null; // a gente quer um tab so pro jogo inteiro entao a gente cria um estatico p/ nao criar diferentes instancias
@@ -45,7 +48,7 @@ class Tabuleiro {
 		return false;
 	}
 	
-	public boolean selecionaCasa(int xDestino, int yDestino, Jogador jogadorDaVez) // esse metodo recebe as coordenadas de destino de uma peça previamente selecionada, validando a movimentação
+	public boolean selecionaCasa(int xDestino, int yDestino, Jogador jogadorDaVez) // esse metodo recebe as coordenadas de destino de uma peï¿½a previamente selecionada, validando a movimentaï¿½ï¿½o
 	{
 		if(xDestino < 0 || xDestino > 7 || yDestino < 0 || yDestino > 7) {
 			return false;
@@ -54,7 +57,7 @@ class Tabuleiro {
 			return false;
 		}
 		if(selecionada.getCor() == jogadorDaVez.getCor()) {
-			return false; // n pode mover pra um lugar onde tem peça do jogador
+			return false; // n pode mover pra um lugar onde tem peï¿½a do jogador
 		}
 		return false;
 	}
@@ -69,6 +72,22 @@ class Tabuleiro {
             casas[j.getPecas().get(i).getX()][j.getPecas().get(i).getY()].ocupaCasa(j.getPecas().get(i));
             casas[j2.getPecas().get(i).getX()][j2.getPecas().get(i).getY()].ocupaCasa(j2.getPecas().get(i));
         }
+	}
+	
+	public Peca getPeca(int x, int y) {
+		return casas[x][y].getPeca();
+	}
+	
+	public List<Peca> getAllPecas() {
+		List<Peca> lista = new ArrayList<>();
+		for(int x = 0; x<8;x++) {
+			for(int y=0;y<8;y++) {
+				if(this.getPeca(x,y) != null) {
+					lista.add(getPeca(x,y));
+				}
+			}
+		}
+		return lista;
 	}
 
 	public static Peca getSelecionada() {

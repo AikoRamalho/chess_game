@@ -29,25 +29,21 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 	
 	private void setCelulas(double lado) {
 		// Notar que a posicao (0,0) é a superior esquerda, 7-linha necessario para ajustar.
-		for(int linha = 0; linha<8; linha++) {
-			double topY=lado*linha;
-			for(int coluna = 0; coluna < 8; coluna++) {
-				double leftX=lado*coluna;
-				if(coluna%2 == 0) {		
-					if(linha%2 == 0) {
-						celulas[7-linha][coluna] = new Celula(leftX,topY,Color.WHITE);
-					}
-					else {
-						celulas[7-linha][coluna] = new Celula(leftX,topY,new Color(192, 192, 192));
-					}
+		for(int x = 0; x<8; x++) {
+			double leftX=lado*x;
+			for(int y = 0; y<8; y++) {
+				double topY=lado*y;
+				if(x%2 == 0) {
+					if(y%2 == 0)
+						celulas[x][y] = new Celula(leftX,topY,Color.WHITE);
+					else
+						celulas[x][y] = new Celula(leftX,topY,new Color(192, 192, 192));
 				}
 				else {
-					if(linha%2 == 0) {
-						celulas[7-linha][coluna] = new Celula(leftX,topY,new Color(192, 192, 192));
-					}
-					else {
-						celulas[7-linha][coluna] = new Celula(leftX,topY,Color.WHITE);
-					}
+					if(y%2 == 0)
+						celulas[x][y] = new Celula(leftX,topY,new Color(192, 192, 192));
+					else
+						celulas[x][y] = new Celula(leftX,topY,Color.WHITE);
 				}
 			}
 		}
@@ -58,7 +54,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 		Graphics2D g2d=(Graphics2D) g;
 		
 		this.drawRetangulos(g2d);
-//		this.drawImage(g2d, 0, 5, TiposPeca.PEAO, Cor.BRANCO); // Teste
+//		this.drawImage(g2d, 1, 5, TiposPeca.PEAO, Cor.BRANCO); // Teste
 		this.drawAllImages(g2d);
 	}
 	
@@ -82,81 +78,99 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 		}
 	}
 	
+	// Desenha uma unica image, de acordo com seu tipo e cor, na posicao (linha, coluna)
+	// Notar que a posicao (0,0) é a superior esquerda, 7-y necessario para ajustar.
+	private void drawImage(Graphics2D g2d, int x, int y, TiposPeca tipo, Cor cor) {
+		ListaImagens li = ListaImagens.getInstance();
+		g2d.drawImage(li.getImage(tipo, cor),
+				(x)*(int)ladoRetangulo,
+				(7-y)*(int)ladoRetangulo,65,65,null);
+	}
+	
 	private void drawAllImages(Graphics2D g2d) {
 		List<List<Object>> list = facade.getDisposicaoPecas();
 		for(List<Object> obj : list) {
-			this.drawImage(g2d,(int)obj.get(1),(int)obj.get(0),
+			this.drawImage(g2d,(int)obj.get(0),(int)obj.get(1),
 					(TiposPeca)obj.get(2),(Cor)obj.get(3));
 		}
-	}
-	
-	// Desenha uma unica image, de acordo com seu tipo e cor, na posicao (linha, coluna)
-	private void drawImage(Graphics2D g2d, int linha, int coluna, TiposPeca tipo, Cor cor) {
-		ListaImagens li = ListaImagens.getInstance();
-		g2d.drawImage(li.getImage(tipo, cor),
-				(coluna)*(int)ladoRetangulo,
-				(7-linha)*(int)ladoRetangulo,65,65,null);
 	}
 	
 	private void marcaMovimentosValidos(List<List<Integer>> movimentos) {
 		for(List<Integer> mov: movimentos) {
 			// Talvez tenha que inverter
-			int linha = mov.get(0);
-			int coluna = mov.get(1);
-			celulas[linha][coluna].changeMarcada();
+			int x = mov.get(0);
+			int y = mov.get(1);
+			celulas[x][y].changeMarcada();
 		}
 	}
 	
 	private void desmarcaMovimentosValidos() {
-		for(int i = 0; i<8;i++) {
-			for(int j = 0;j<8;j++) {
-				celulas[i][j].marcada = false;
+		for(int x = 0; x<8;x++) {
+			for(int y = 0;y<8;y++) {
+				celulas[x][y].marcada = false;
 			}
 		}
 	}
 	
 	// TODO: Aplicar a logica do jogo usando o Facade.
+//	public void mouseClicked(MouseEvent e) {
+//		if(SwingUtilities.isLeftMouseButton(e)) {			
+//			int x=e.getX(),y=e.getY();
+//			int coluna = 7-y/(int)ladoRetangulo;
+//			int linha = x/(int)ladoRetangulo;
+//			
+////			celulas[linha][coluna].changeMarcada();
+//			if(pecaSelecionada == null) { // Selecionando peca
+//				
+//				// Usar o facade para saber se a peca selecionada é valida,
+//				// caso seja, pedir os movimentos validos da peca,
+//				// usar marcaMovimentosValidos e pecaSelecionada = [linha, coluna].
+//				if(facade.selecionaPeca(linha, coluna)) {
+//					this.marcaMovimentosValidos(
+//							facade.getMovimentosValidosDaPeca(linha, coluna));
+//					pecaSelecionada = new int[2];
+//					pecaSelecionada[0] = linha;
+//					pecaSelecionada[1] = coluna;
+//				}
+//				return;
+//			} else { // Selecionando casa
+//				// usar o facade para saber se a casa selecionada é valida,
+//				// ,caso seja, usar o facade para mover a peca.
+//				if(facade.selecionaCasa(linha, coluna)) {
+//					this.desmarcaMovimentosValidos();
+//					facade.movePecaDePara(pecaSelecionada[0],pecaSelecionada[1],
+//							linha,coluna);
+//				}
+//				this.desmarcaMovimentosValidos();
+//				pecaSelecionada = null;
+//			}
+////			pecaSelecionada = null;
+////			desmarcaMovimentosValidos();			
+////			this.repaint(); // Chama paintComponent() novamente
+//			
+//		} else if(SwingUtilities.isRightMouseButton(e)) {
+//			// TODO: continuar em futura iteracao
+//			JFileChooser jFileChooser = new JFileChooser();
+//        	int result = jFileChooser.showOpenDialog(new JFrame());
+//		}
+//		return;
+//	}
+	
 	public void mouseClicked(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {			
-			int x=e.getX(),y=e.getY();
-			int coluna = 7-y/(int)ladoRetangulo;
-			int linha = x/(int)ladoRetangulo;
+			int x = e.getX()/(int)this.ladoRetangulo;
+			int y = e.getY()/(int)this.ladoRetangulo;
 			
-//			celulas[linha][coluna].changeMarcada();
-			if(pecaSelecionada == null) { // Selecionando peca
-				
-				// Usar o facade para saber se a peca selecionada é valida,
-				// caso seja, pedir os movimentos validos da peca,
-				// usar marcaMovimentosValidos e pecaSelecionada = [linha, coluna].
-				if(facade.selecionaPeca(linha, coluna)) {
-					this.marcaMovimentosValidos(
-							facade.getMovimentosValidosDaPeca(linha, coluna));
-					pecaSelecionada = new int[2];
-					pecaSelecionada[0] = linha;
-					pecaSelecionada[1] = coluna;
-				}
-				return;
-			} else { // Selecionando casa
-				// usar o facade para saber se a casa selecionada é valida,
-				// ,caso seja, usar o facade para mover a peca.
-				if(facade.selecionaCasa(linha, coluna)) {
-					this.desmarcaMovimentosValidos();
-					facade.movePecaDePara(pecaSelecionada[0],pecaSelecionada[1],
-							linha,coluna);
-				}
-				this.desmarcaMovimentosValidos();
-				pecaSelecionada = null;
-			}
-//			pecaSelecionada = null;
-//			desmarcaMovimentosValidos();			
-//			this.repaint(); // Chama paintComponent() novamente
+			celulas[x][y].changeMarcada();
+			this.repaint(); // Chama paintComponent() novamente
 			
 		} else if(SwingUtilities.isRightMouseButton(e)) {
 			// TODO: continuar em futura iteracao
 			JFileChooser jFileChooser = new JFileChooser();
         	int result = jFileChooser.showOpenDialog(new JFrame());
+		} else {
+			return;
 		}
-		return;
 	}
 	
 	public void mouseEntered(MouseEvent e) {}

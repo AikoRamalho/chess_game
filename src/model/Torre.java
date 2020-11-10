@@ -1,13 +1,15 @@
 package model;
 
 import common.Cor;
+import common.TiposPeca;
+
 import java.util.List;
 import java.util.ArrayList;
 
 class Torre extends Peca {
 
 	public Torre(Cor cor, int x, int y) {
-		super(cor, x, y);
+		super(TiposPeca.TORRE,cor, x, y);
 		// TODO Auto-generated constructor stub
 	}
 	
