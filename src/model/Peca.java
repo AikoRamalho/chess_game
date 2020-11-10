@@ -2,13 +2,16 @@ package model;
 
 import common.Cor;
 import common.Estado;
+import common.TiposPeca;
 
 class Peca {
 	private Estado estado;
 	private Cor cor;
+	private TiposPeca tipo;
 	int x, y;
 	
-	public Peca(Cor cor, int x, int y) {
+	public Peca(TiposPeca tipo, Cor cor, int x, int y) {
+		this.tipo = tipo;
 		this.estado	 = Estado.NORMAL;
 		this.cor = cor;
 		this.x = x;
@@ -31,10 +34,14 @@ class Peca {
 		return cor;
 	}
 
+	public TiposPeca getTipo() {
+		return tipo;
+	}
+
 	public void setEstado() {
 		if(this.estado == Estado.NORMAL)
 		{
-			this.estado = Estado.CAPTURADO; // so pode trocar o estado se for p/ capturado (uma peça capturada n pode voltar nunca ao jogo)		
+			this.estado = Estado.CAPTURADO; // so pode trocar o estado se for p/ capturado (uma peï¿½a capturada n pode voltar nunca ao jogo)		
 		}
 	}
 

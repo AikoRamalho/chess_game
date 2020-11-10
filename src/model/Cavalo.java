@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Cor;
+import common.TiposPeca;
 
 class Cavalo extends Peca {
 
 	public Cavalo(Cor cor, int x, int y) {
-		super(cor, x, y);
+		super(TiposPeca.CAVALO,cor, x, y);
 	}
 	
 	private List<List<Integer>> getCasas(int x, int y, Casa[][] tabCasas) {

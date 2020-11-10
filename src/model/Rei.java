@@ -1,25 +1,26 @@
 package model;
 
 import common.Cor;
+import common.TiposPeca;
 
 class Rei extends Peca {
 
 	public Rei(Cor cor, int x, int y) {
-		super(cor, x, y);
+		super(TiposPeca.REI,cor, x, y);
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 	private boolean checkYPositivo(int xRei, int yRei, Casa[][] tabCasas) {
-		//iterando na direção p/ cima do yRei
+		//iterando na direï¿½ï¿½o p/ cima do yRei
 		int aux = yRei+1;
 		while(aux < 8) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xRei][aux].getPeca() != null) { // ve se a posicao tem uma peca 
 				if(tabCasas[xRei][aux].getPeca().getCor() != this.getCor()) {	// ve se a peca tem cor diferente do rei						
 					if (tabCasas[xRei][aux].getPeca() instanceof Rainha || tabCasas[xRei][aux].getPeca() instanceof Torre) {
 						return true;
-					}else { // outras peças q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
+					}else { // outras peï¿½as q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
 						break;
 					}
 				}else {
@@ -34,14 +35,14 @@ class Rei extends Peca {
 	private boolean checkYNegativo(int xRei, int yRei, Casa[][] tabCasas) {
 		int aux = yRei - 1;
 		
-		//iterando na direção p/ baixo do yRei 
+		//iterando na direï¿½ï¿½o p/ baixo do yRei 
 		while(aux >= 0) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xRei][aux].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xRei][aux].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
 					if (tabCasas[xRei][aux].getPeca() instanceof Rainha || tabCasas[xRei][aux].getPeca() instanceof Torre) {
 						return true;
-					}else { // outras peças q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
+					}else { // outras peï¿½as q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
 						break;
 					}
 				}else {
@@ -65,12 +66,12 @@ class Rei extends Peca {
 		
 		//iterando na diagonal x-y positiva
 		while(xPositivo < 8 && yPositivo < 8) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xPositivo][yPositivo].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xPositivo][yPositivo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
 					if (tabCasas[xPositivo][yPositivo].getPeca() instanceof Rainha || tabCasas[xPositivo][yPositivo].getPeca() instanceof Bispo) {
 						return true;
-					}else { // outras peças q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
+					}else { // outras peï¿½as q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
 						break;
 					}
 				}else {
@@ -95,12 +96,12 @@ class Rei extends Peca {
 		
 		//iterando na diagonal x-y positiva
 		while(xNegativo >= 0 && yPositivo < 8) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xNegativo][yPositivo].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xNegativo][yPositivo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
 					if (tabCasas[xNegativo][yPositivo].getPeca() instanceof Rainha || tabCasas[xNegativo][yPositivo].getPeca() instanceof Bispo) {
 						return true;
-					}else { // outras peças q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
+					}else { // outras peï¿½as q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
 						break;
 					}
 				}else {
@@ -124,12 +125,12 @@ class Rei extends Peca {
 		
 		//iterando na diagonal x-y positiva
 		while(xNegativo >= 0 && yNegativo >= 0) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xNegativo][yNegativo].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xNegativo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
 					if (tabCasas[xNegativo][yNegativo].getPeca() instanceof Rainha || tabCasas[xNegativo][yNegativo].getPeca() instanceof Bispo) {
 						return true;
-					}else { // outras peças q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
+					}else { // outras peï¿½as q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
 						break;
 					}
 				}else {
@@ -153,12 +154,12 @@ class Rei extends Peca {
 		
 		//iterando na diagonal x-y positiva
 		while(xPositivo < 8 && yNegativo >= 0) {
-			// ver se a casa é uma peça
+			// ver se a casa ï¿½ uma peï¿½a
 			if(tabCasas[xPositivo][yNegativo].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xPositivo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
 					if (tabCasas[xPositivo][yNegativo].getPeca() instanceof Rainha || tabCasas[xPositivo][yNegativo].getPeca() instanceof Bispo) {
 						return true;
-					}else { // outras peças q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
+					}else { // outras peï¿½as q n sejam rainha ou bispo nao oferecem perigo pro rei quando estao na mesma diagonal q ele
 						break;
 					}
 				}else {
@@ -226,7 +227,7 @@ class Rei extends Peca {
 		
 		Casa[][] tabCasas = t.getCasas();	
 
-		// Vamos começar verificando variando em y [0, 7]
+		// Vamos comeï¿½ar verificando variando em y [0, 7]
 		boolean yPositivo = this.checkYPositivo(xRei, yRei, tabCasas);
 		boolean yNegativo = this.checkYNegativo(xRei, yRei, tabCasas);
 		
@@ -238,7 +239,7 @@ class Rei extends Peca {
 		boolean xNegativoYNegativo = this.checkXNegativoYNegativo(xRei, yRei, tabCasas);
 		boolean xPositivoYNegativo = this.checkXPositivoYNegativo(xRei, yRei, tabCasas);
 		
-		//checar se tem peão checando o rei
+		//checar se tem peï¿½o checando o rei
 		boolean reiChequePorPeao = checaSePeaoChecouRei(xRei, yRei, tabCasas);
 		
 		// cavalo checando o rei
