@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import model.ModelFacade;
+
 public class FrameTabuleiro extends JFrame {
 	public final int LARG_DEFAULT=560+18;
 	public final int ALT_DEFAULT=560+41;
@@ -20,6 +22,8 @@ public class FrameTabuleiro extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Tabuleiro");
 		
+//		ModelFacade.getInstance().iniciaTabuleiro();
 		getContentPane().add(new PainelTabuleiro());
+		ModelFacade.getInstance().iniciaPartida();
 	}
 }

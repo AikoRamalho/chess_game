@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.Cor;
+import common.Observer;
 
 public class ModelFacade {
 	public static ModelFacade mf = null;
 	private Tabuleiro tb; // pega o static tabuleiro
 	Jogador jogador1, jogador2;
 	Partida partida;
+	
+	private ModelFacade() {
+		tb = Tabuleiro.getTabuleiro();
+	}
 	
 	public static ModelFacade getInstance() {
 		if(mf != null)
@@ -30,7 +35,12 @@ public class ModelFacade {
 	}
 
 	public void iniciaTabuleiro() {
-		tb = Tabuleiro.getTabuleiro(jogador1, jogador2);
+//		tb = Tabuleiro.getTabuleiro(jogador1, jogador2);
+		tb = Tabuleiro.getTabuleiro();
+	}
+	
+	public void iniciaPartida() {
+		tb.setTabuleiro(jogador1, jogador2);
 	}
 	
 	public void reiniciaTabuleiro() {
@@ -47,17 +57,11 @@ public class ModelFacade {
 	}
 	
 	public List<List<Object>> getDisposicaoPecas() {
-		List<List<Object>> listOfLists = new ArrayList<>();
-		List<Peca> pecas =  tb.getAllPecas();		
-		for(Peca peca: pecas) {
-			List<Object> innerList = new ArrayList<>();
-			innerList.add(peca.getX());
-			innerList.add(peca.getY());
-			innerList.add(peca.getTipo());
-			innerList.add(peca.getCor());
-			listOfLists.add(innerList);
-		}
-		return listOfLists;
+		return tb.getDisposicaoPecas();
+	}
+	
+	public void register(Observer o) {
+		tb.addObserver(o);
 	}
 
 //	public static void main(String[] args) {
