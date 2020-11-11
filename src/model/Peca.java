@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.Cor;
 import common.Estado;
 import common.TiposPeca;
@@ -29,6 +32,14 @@ class Peca {
 	public int getY() {
 		return this.y;
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 
 	public Cor getCor() {
 		return cor;
@@ -51,8 +62,17 @@ class Peca {
 	
 	public boolean movimentoValido(int xDestino, int yDestino)
 	{
-		System.out.println("kkkkkkk");
-		return true;
+		List<List<Integer>> movimentosValidos = this.getMovimentosValidos();
+		for(List<Integer> mov: movimentosValidos) {
+			if(mov.get(0) == xDestino && mov.get(1) == yDestino)
+				return true;
+		}
+		return false;
+	}
+
+	public List<List<Integer>> getMovimentosValidos() { 
+		List<List<Integer>> movimentosValidos = new ArrayList<>();
+		return movimentosValidos;
 	}
 		
 }

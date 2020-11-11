@@ -53,7 +53,7 @@ public class ModelFacade {
 	
 	public boolean selecionaCasa(int linhaCasaDesejada, int colunaCasaDesejada) {
 //		Peca aux = tb.selecionaPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
-		return tb.selecionaPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
+		return tb.selecionaCasa(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
 	}
 	
 	public List<List<Object>> getDisposicaoPecas() {
@@ -62,6 +62,18 @@ public class ModelFacade {
 	
 	public void register(Observer o) {
 		tb.addObserver(o);
+	}
+
+	public List<List<Integer>> getMovimentosValidosDaPeca(int x, int y) {
+		Peca peca = tb.getPeca(x, y);
+		if(peca == null)
+			return null;
+		return peca.getMovimentosValidos();
+	}
+
+	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
+		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
+		partida.passaVez();
 	}
 
 //	public static void main(String[] args) {
