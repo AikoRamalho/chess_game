@@ -56,10 +56,10 @@ public class FrameInicial extends JFrame implements ActionListener {
 			
 			ModelFacade mf = ModelFacade.getInstance();
 	    	mf.setPartida("p1", "p2");
-	    	mf.iniciaTabuleiro();
-			
-			new FrameTabuleiro().setVisible(true);
-			
+//	    	ModelFacade.getInstance().iniciaTabuleiro();
+//	    	mf.iniciaTabuleiro();
+	    	new FrameTabuleiro().setVisible(true);
+						
         } else if (command.equals("carrega")) {
 //        	JOptionPane.showMessageDialog(this, "Implementacao na 4 iteracao");
         	JFileChooser jFileChooser = new JFileChooser();
@@ -68,11 +68,7 @@ public class FrameInicial extends JFrame implements ActionListener {
         }
 	}
 	
-	public static void main(String[] args) {
-//		ModelFacade mf = ModelFacade.getInstance();
-//    	mf.setPartida("p1", "p2");
-//    	mf.iniciaTabuleiro();
-    	
+	public static void main(String[] args) {    	
 		new FrameInicial().setVisible(true);
 	}
 }

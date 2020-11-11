@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import common.Cor;
+import common.Observable;
+import common.Observer;
 import common.TiposPeca;
 import model.ModelFacade;
 
@@ -13,17 +15,22 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class PainelTabuleiro extends JPanel implements MouseListener {
+public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	private Celula [][] celulas = new Celula[8][8];
 	private final double ladoRetangulo = 70.0;
 	private int[] pecaSelecionada = null;
 	ModelFacade facade = ModelFacade.getInstance();// talvez seja melhor o controller
+	Observable obs;
+	Object lob[];
+	List<List<Object>> dispPecas = new ArrayList<>();
 	
 	public PainelTabuleiro() {
 		addMouseListener(this);
+		facade.register(this);
 		this.setCelulas(this.ladoRetangulo);
 	}
 	
@@ -88,8 +95,8 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 	}
 	
 	private void drawAllImages(Graphics2D g2d) {
-		List<List<Object>> list = facade.getDisposicaoPecas();
-		for(List<Object> obj : list) {
+//		List<List<Object>> list = facade.getDisposicaoPecas();
+		for(List<Object> obj : dispPecas) {
 			this.drawImage(g2d,(int)obj.get(0),(int)obj.get(1),
 					(TiposPeca)obj.get(2),(Cor)obj.get(3));
 		}
@@ -177,4 +184,13 @@ public class PainelTabuleiro extends JPanel implements MouseListener {
 	public void mousePressed(MouseEvent e) {}
 	public void mouseReleased(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void notify(Observable o) {
+		obs=o;
+		lob=(Object []) obs.get();
+		dispPecas.clear();
+		dispPecas = (List<List<Object>>) lob[0];		
+		this.repaint();
+	}
 }
