@@ -62,7 +62,7 @@ class Bispo extends Peca {
 		}
 		
 		//iterando na diagonal direita inferior
-		while(xPositivo >= 0 && yNegativo < 8) {
+		while(xPositivo < 8 && yNegativo >= 0) {
 			// ver se a casa é uma peca
 			if(tabCasas[xPositivo][yNegativo].getPeca() != null) { // ve se a posicao tem uma peca
 				if(tabCasas[xPositivo][yNegativo].getPeca().getCor() != this.getCor()) { // ve se a peca é inimiga			
@@ -161,7 +161,8 @@ class Bispo extends Peca {
 		return listOfLists;
 	}
 	
-	protected List<List<Integer>> getMovimentosValidos() {
+	@Override
+	public List<List<Integer>> getMovimentosValidos() {
 		List<List<Integer>> movimentosValidos = new ArrayList<>();
 		int xBispo = this.x;
 		int yBispo = this.y;

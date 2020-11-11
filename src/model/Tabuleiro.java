@@ -3,10 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Estado;
 import common.Observable;
 import common.Observer;
 
-class Tabuleiro implements Observable{
+class Tabuleiro implements Observable {
 	private Casa[][] casas = new Casa[8][8];
 	private static Tabuleiro staticTabuleiro = null; // a gente quer um tab so pro jogo inteiro entao a gente cria um estatico p/ nao criar diferentes instancias
 	private static Peca selecionada = null; //peca do tabuleiro selecionada
@@ -26,7 +27,8 @@ class Tabuleiro implements Observable{
 		if(staticTabuleiro != null)
 			return staticTabuleiro;
 		
-		return new Tabuleiro();
+		staticTabuleiro = new Tabuleiro();
+		return staticTabuleiro;
 	}
 	
 	public static void deleteTabuleiro() {
@@ -57,24 +59,28 @@ class Tabuleiro implements Observable{
 		if(xDestino < 0 || xDestino > 7 || yDestino < 0 || yDestino > 7) {
 			return false;
 		}
-		if(selecionada == null) {
+		// Verifica se a casa selecionanda contem peca aliada
+		if(staticTabuleiro.casas[xDestino][yDestino].getPeca() != null && 
+				staticTabuleiro.casas[xDestino][yDestino].getPeca().getCor() == selecionada.getCor()) {
 			return false;
 		}
-		if(selecionada.getCor() == jogadorDaVez.getCor()) {
-			return false; // n pode mover pra um lugar onde tem pe�a do jogador
-		}
-		return false;
+		// Verifica se a casa selecionanda é um movimento valido da peca
+//		if(selecionada.movimentoValido(xDestino, yDestino)) {
+//			return false;
+//		}
+//		return true;
+		return selecionada.movimentoValido(xDestino, yDestino);
 	}
 	
 	public void setTabuleiro(Jogador j, Jogador j2) {
 		for(int i=0; i<8; i++) {
 			for(int k=0; k<8;k++) {
-				casas[i][k] = new Casa(i, k, null);
+				staticTabuleiro.casas[i][k] = new Casa(i, k, null);
 			}
 		}
 		for(int i=0; i<j.getPecas().size(); i++){
-            casas[j.getPecas().get(i).getX()][j.getPecas().get(i).getY()].ocupaCasa(j.getPecas().get(i));
-            casas[j2.getPecas().get(i).getX()][j2.getPecas().get(i).getY()].ocupaCasa(j2.getPecas().get(i));
+			staticTabuleiro.casas[j.getPecas().get(i).getX()][j.getPecas().get(i).getY()].ocupaCasa(j.getPecas().get(i));
+			staticTabuleiro.casas[j2.getPecas().get(i).getX()][j2.getPecas().get(i).getY()].ocupaCasa(j2.getPecas().get(i));
         }
 		
 		for(Observer o:lob) {
@@ -82,8 +88,33 @@ class Tabuleiro implements Observable{
 		}
 	}
 	
+	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
+		Peca pecaParaMover = staticTabuleiro.getPeca(xAtual, yAtual);
+		Peca pecaParaCapturar = staticTabuleiro.getPeca(xPara, yPara);
+		if(pecaParaCapturar == null) { // posicao vazia
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+			pecaParaMover.setX(xPara);
+			pecaParaMover.setY(yPara);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+		} else {
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+			pecaParaMover.setX(xPara);
+			pecaParaMover.setY(yPara);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+			
+			pecaParaCapturar.setEstado();
+			// Talvez seja desnecessario.
+			pecaParaCapturar.setX(-1);
+			pecaParaCapturar.setY(-1);
+		}
+		
+		for(Observer o:lob) {
+			o.notify(this);
+		}
+	}
+	
 	public Peca getPeca(int x, int y) {
-		return casas[x][y].getPeca();
+		return staticTabuleiro.casas[x][y].getPeca();
 	}
 	
 	public List<Peca> getAllPecas() {
@@ -91,7 +122,7 @@ class Tabuleiro implements Observable{
 		for(int x = 0; x<8;x++) {
 			for(int y=0;y<8;y++) {
 				if(this.getPeca(x,y) != null) {
-					lista.add(getPeca(x,y));
+					lista.add(staticTabuleiro.getPeca(x,y));
 				}
 			}
 		}
