@@ -1,13 +1,30 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.Cor;
+import common.Observer;
 
 public class ModelFacade {
+	public static ModelFacade mf = null;
 	private Tabuleiro tb; // pega o static tabuleiro
 	Jogador jogador1, jogador2;
 	Partida partida;
 	
-	public Partida getPartida() {
+	private ModelFacade() {
+		tb = Tabuleiro.getTabuleiro();
+	}
+	
+	public static ModelFacade getInstance() {
+		if(mf != null)
+			return mf;
+		
+		mf = new ModelFacade();
+		return mf;
+	}
+	
+	private Partida getPartida() {
 		return partida;
 	}
 
@@ -18,7 +35,12 @@ public class ModelFacade {
 	}
 
 	public void iniciaTabuleiro() {
-		Tabuleiro.getTabuleiro(jogador1, jogador2);
+//		tb = Tabuleiro.getTabuleiro(jogador1, jogador2);
+		tb = Tabuleiro.getTabuleiro();
+	}
+	
+	public void iniciaPartida() {
+		tb.setTabuleiro(jogador1, jogador2);
 	}
 	
 	public void reiniciaTabuleiro() {
@@ -30,11 +52,32 @@ public class ModelFacade {
 	}
 	
 	public boolean selecionaCasa(int linhaCasaDesejada, int colunaCasaDesejada) {
-		//Peca aux = tb.getPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
-		return false;
+//		Peca aux = tb.selecionaPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
+		return tb.selecionaCasa(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
 	}
 	
-    public static void main(String[] args) {
-		Tabuleiro.getTabuleiro(new Jogador("aiko", Cor.BRANCO), new Jogador("ajsdkljas", Cor.PRETO));
-    }
+	public List<List<Object>> getDisposicaoPecas() {
+		return tb.getDisposicaoPecas();
+	}
+	
+	public void register(Observer o) {
+		tb.addObserver(o);
+	}
+
+	public List<List<Integer>> getMovimentosValidosDaPeca(int x, int y) {
+		Peca peca = tb.getPeca(x, y);
+		if(peca == null)
+			return null;
+		return peca.getMovimentosValidos();
+	}
+
+	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
+		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
+		partida.passaVez();
+	}
+
+//	public static void main(String[] args) {
+//		Tabuleiro.getTabuleiro(new Jogador("aiko", Cor.BRANCO), new Jogador("ajsdkljas", Cor.PRETO));
+//    }
+
 }

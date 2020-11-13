@@ -1,13 +1,15 @@
 package model;
 
 import common.Cor;
+import common.TiposPeca;
+
 import java.util.List;
 import java.util.ArrayList;
 
 class Torre extends Peca {
 
 	public Torre(Cor cor, int x, int y) {
-		super(cor, x, y);
+		super(TiposPeca.TORRE,cor, x, y);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -99,14 +101,6 @@ class Torre extends Peca {
 		movimentosValidos.addAll(this.getCasasY(xTorre, yTorre, t.getCasas()));
 		
 		return movimentosValidos;
-	}
-	
-	@Override
-	public boolean movimentoValido(int xDestino, int yDestino)
-	{
-		super.movimentoValido(xDestino, yDestino);
-		System.out.println("aaaaaaaa");
-		return true;
 	}
 
 }

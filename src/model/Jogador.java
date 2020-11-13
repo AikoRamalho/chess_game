@@ -39,7 +39,7 @@ class Jogador {
 	public void inicializaPecas(){
 		if(cor == Cor.BRANCO) {
 			for(int i = 0; i<8; i++) {
-				pecas.add(new Peao(Cor.BRANCO, i, 2));
+				pecas.add(new Peao(Cor.BRANCO, i, 1));
 			}
 			pecas.add(new Torre(Cor.BRANCO, 0, 0));
 			pecas.add(new Torre(Cor.BRANCO, 7, 0));
