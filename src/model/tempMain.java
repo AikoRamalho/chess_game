@@ -9,7 +9,7 @@ public class tempMain {
 		Tabuleiro tb = Tabuleiro.getTabuleiro();
 //		tb.setTabuleiro();
 		
-		tb.mPecas[2][3] = new Rei(Cor.BRANCO,2,3);
+//		tb.mPecas[2][3] = new Rei(Cor.BRANCO,2,3);
 //		tb.mPecas[2][3] = (Peca) tb.mPecas[2][3];
 //		tb.mPecas[3][5] = new Cavalo(Cor.PRETO,2,2);
 //		tb.mPecas[0][2] = new Rainha(Cor.PRETO,0,6);
@@ -22,7 +22,7 @@ public class tempMain {
 		
 		
 //		System.out.println("Ta em xeque: " + ((Rei) tb.mPecas[2][3]).isXeque());
-		System.out.println(tb.mPecas[2][3] instanceof Rei);
+//		System.out.println(tb.mPecas[2][3] instanceof Rei);
 	}
 
 }

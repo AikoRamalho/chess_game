@@ -30,7 +30,7 @@ public class ModelFacade {
 	}
 	
 	public boolean selecionaCasa(int linhaCasaDesejada, int colunaCasaDesejada) {
-		Peca aux = tb.getPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
+		//Peca aux = tb.getPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
 		return false;
 	}
 	
