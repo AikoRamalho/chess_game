@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import controller.Controller;
 import model.ModelFacade;
 
 public class FrameInicial extends JFrame implements ActionListener {
@@ -53,22 +54,17 @@ public class FrameInicial extends JFrame implements ActionListener {
 		
 		if (command.equals("novo")) {
 			this.dispose();
-			
-			ModelFacade mf = ModelFacade.getInstance();
-	    	mf.setPartida("p1", "p2");
-//	    	ModelFacade.getInstance().iniciaTabuleiro();
-//	    	mf.iniciaTabuleiro();
+			Controller.getInstance().iniciaPartida();
 	    	new FrameTabuleiro().setVisible(true);
 						
         } else if (command.equals("carrega")) {
-//        	JOptionPane.showMessageDialog(this, "Implementacao na 4 iteracao");
         	JFileChooser jFileChooser = new JFileChooser();
         	int result = jFileChooser.showOpenDialog(new JFrame());
         	// TODO: continuar em futura iteracao
         }
 	}
 	
-	public static void main(String[] args) {    	
-		new FrameInicial().setVisible(true);
-	}
+//	public static void main(String[] args) {    	
+//		new FrameInicial().setVisible(true);
+//	}
 }

@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import controller.Controller;
 import model.ModelFacade;
 
 public class FrameTabuleiro extends JFrame {
@@ -22,8 +23,8 @@ public class FrameTabuleiro extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Tabuleiro");
 		
-//		ModelFacade.getInstance().iniciaTabuleiro();
-		getContentPane().add(new PainelTabuleiro());
-		ModelFacade.getInstance().iniciaPartida();
+		getContentPane().add(new PainelTabuleiro(this));
+//		ModelFacade.getInstance().iniciaPartida();
+		Controller.getInstance().iniciaTabuleiro();
 	}
 }
