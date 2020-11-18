@@ -11,6 +11,49 @@ class Rei extends Peca {
 	}
 	
 	
+	private boolean checkXPositivo(int xRei, int yRei, Casa[][] tabCasas) {
+		//iterando na dire��o p/ cima do yRei
+		int aux = xRei+1;
+		while(aux < 8) {
+			// ver se a casa � uma pe�a
+			if(tabCasas[aux][yRei].getPeca() != null) { // ve se a posicao tem uma peca 
+				if(tabCasas[aux][yRei].getPeca().getCor() != this.getCor()) {	// ve se a peca tem cor diferente do rei						
+					if (tabCasas[aux][yRei].getPeca() instanceof Rainha || tabCasas[aux][yRei].getPeca() instanceof Torre) {
+						return true;
+					}else { // outras pe�as q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
+						break;
+					}
+				}else {
+					break; //nao precisa mais ver, pq se sao da mesma cor o rei ta protegido naquela posicao
+				}
+			}
+			aux++;
+		}
+		return false;
+	}
+	
+	private boolean checkXNegativo(int xRei, int yRei, Casa[][] tabCasas) {
+		int aux = xRei - 1;
+		
+		//iterando na dire��o p/ baixo do yRei 
+		while(aux >= 0) {
+			// ver se a casa � uma pe�a
+			if(tabCasas[aux][yRei].getPeca() != null) { // ve se a posicao tem uma peca
+				if(tabCasas[aux][yRei].getPeca().getCor() != this.getCor()) { // ve se a peca tem cor diferente do rei		
+					if (tabCasas[aux][yRei].getPeca() instanceof Rainha || tabCasas[aux][yRei].getPeca() instanceof Torre) {
+						return true;
+					}else { // outras pe�as q n sejam rainha ou torre nao oferecem perigo pro rei quando estao na mesma coluna q ele
+						break;
+					}
+				}else {
+					break; //nao precisa mais ver, pq se sao da mesma cor o rei ta protegido naquela posicao
+				}
+			}
+			aux--;
+		}
+		return false;
+	}
+	
 	private boolean checkYPositivo(int xRei, int yRei, Casa[][] tabCasas) {
 		//iterando na dire��o p/ cima do yRei
 		int aux = yRei+1;
@@ -232,6 +275,8 @@ class Rei extends Peca {
 		boolean yNegativo = this.checkYNegativo(xRei, yRei, tabCasas);
 		
 		// verificar entre x [0, 7]
+		boolean xPositivo = this.checkXPositivo(xRei, yRei, tabCasas);
+		boolean xNegativo = this.checkXNegativo(xRei, yRei, tabCasas);
 		
 		// checar todas as diagonais
 		boolean xPositivoYPositivo = this.checkXYPositivo(xRei, yRei, tabCasas);
@@ -246,7 +291,7 @@ class Rei extends Peca {
 		
 		//ainda falta checar se tem um rei checando o rei mas vamos deixar isso p deois
 		
-		return yPositivo && yNegativo && xPositivoYPositivo && xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo && reiChequePorPeao;
+		return yPositivo && yNegativo && xPositivoYPositivo && xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo && reiChequePorPeao && xPositivo && xNegativo;
 		
 	}
 

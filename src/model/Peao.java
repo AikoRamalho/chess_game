@@ -16,10 +16,6 @@ class Peao extends Peca {
 	//retorna uma lista com as coordenadas possíveis
 	private List<List<Integer>> getCasas(int x, int y, Casa[][] tabCasas) { //x é coluna, y é linha
         List<List<Integer>> listOfLists = new ArrayList<>();
-        Peca diagBrancaDir = tabCasas[x+1][y+1].getPeca();
-        Peca diagBrancaEsq = tabCasas[x-1][y+1].getPeca();
-        Peca diagPretaDir = tabCasas[x+1][y-1].getPeca();
-        Peca diagPretaEsq = tabCasas[x-1][y-1].getPeca();
         
         if(this.getCor() == Cor.BRANCO) {
         	if(y == 1) { //está na casa inicial 
@@ -41,13 +37,13 @@ class Peao extends Peca {
             			listOfLists.add(innerList);
         			}                	
         			//diagonal Branco:
-        			if(x+1 < 8 && diagBrancaDir != null && diagBrancaDir.getCor() == Cor.PRETO) {
+        			if(x+1 < 8 && y+1 < 8 && tabCasas[x+1][y+1].getPeca() != null && tabCasas[x+1][y+1].getPeca().getCor() == Cor.PRETO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x+1);
         				innerList2.add(y+1);
         				listOfLists.add(innerList2);
         	        }
-        			if(x-1 >= 0 && diagBrancaEsq != null && diagBrancaEsq.getCor() == Cor.PRETO) {
+        			if(x-1 >= 0 && y+1 < 8 && tabCasas[x-1][y+1].getPeca() != null && tabCasas[x-1][y+1].getPeca().getCor() == Cor.PRETO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x-1);
         				innerList2.add(y+1);
@@ -75,13 +71,13 @@ class Peao extends Peca {
             			innerList.add(y-1);
             			listOfLists.add(innerList);
         			}                	
-        			if(x+1 < 8 && diagPretaDir != null && diagPretaDir.getCor() == Cor.BRANCO) {
+        			if(x+1 < 8 && y-1 >= 0 && tabCasas[x+1][y-1].getPeca() != null && tabCasas[x+1][y-1].getPeca().getCor() == Cor.BRANCO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x+1);
         				innerList2.add(y-1);
         				listOfLists.add(innerList2);
         	        }
-        			if(x-1 >= 0 && diagPretaEsq != null && diagPretaEsq.getCor() == Cor.BRANCO) {
+        			if(x-1 >= 0 && y-1 >= 0 && tabCasas[x-1][y-1].getPeca() != null && tabCasas[x-1][y-1].getPeca().getCor() == Cor.BRANCO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x-1);
         				innerList2.add(y-1);
