@@ -102,11 +102,11 @@ class Peao extends Peca {
 		return movimentosValidos;
 	}
 	
-	@Override
-	public boolean movimentoValido(int xDestino, int yDestino)
-	{
-		super.movimentoValido(xDestino, yDestino);
-		System.out.println("aaaaaaaa");
-		return true;
-	}
+//	@Override
+//	public boolean movimentoValido(int xDestino, int yDestino)
+//	{
+//		super.movimentoValido(xDestino, yDestino);
+//		System.out.println("aaaaaaaa");
+//		return true;
+//	}
 }
