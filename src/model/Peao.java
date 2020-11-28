@@ -18,6 +18,14 @@ class Peao extends Peca {
         List<List<Integer>> listOfLists = new ArrayList<>();
         
         if(this.getCor() == Cor.BRANCO) {
+        	Peca diagBrancaDir = null;
+        	if(x<7) {
+        		diagBrancaDir = tabCasas[x+1][y+1].getPeca();
+        	}
+            Peca diagBrancaEsq = null;
+            if(x>0) {
+            	diagBrancaEsq = tabCasas[x-1][y+1].getPeca();
+            }
         	if(y == 1) { //está na casa inicial 
     	        List<Integer> innerList = new ArrayList<>();
     	        List<Integer> innerList2 = new ArrayList<>();
@@ -27,8 +35,8 @@ class Peao extends Peca {
     	        innerList2.add(x);
     	        innerList2.add(y+2);
     	        listOfLists.add(innerList2);	        
-            }//
-        	else {
+            }
+        	else {        		
         		if(y+1 < 8) {
         			if(tabCasas[x][y+1].getPeca() == null) { //se a casa da frente estiver vazia
         				List<Integer> innerList = new ArrayList<>();
@@ -37,22 +45,32 @@ class Peao extends Peca {
             			listOfLists.add(innerList);
         			}                	
         			//diagonal Branco:
-        			if(x+1 < 8 && y+1 < 8 && tabCasas[x+1][y+1].getPeca() != null && tabCasas[x+1][y+1].getPeca().getCor() == Cor.PRETO) {
+        			
+        			if(x+1 < 8 && diagBrancaDir != null && diagBrancaDir.getCor() == Cor.PRETO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x+1);
         				innerList2.add(y+1);
         				listOfLists.add(innerList2);
         	        }
-        			if(x-1 >= 0 && y+1 < 8 && tabCasas[x-1][y+1].getPeca() != null && tabCasas[x-1][y+1].getPeca().getCor() == Cor.PRETO) {
+        			
+        			if(x-1 >= 0 && diagBrancaEsq != null && diagBrancaEsq.getCor() == Cor.PRETO) {
         	        	List<Integer> innerList2 = new ArrayList<>();
         		        innerList2.add(x-1);
         				innerList2.add(y+1);
         				listOfLists.add(innerList2);
-        	        }
+        	        }        	        
                 }
         	}            
         }
         else { //se for preto
+            Peca diagPretaDir = null;
+        	if(x<7) {
+        		diagPretaDir = tabCasas[x+1][y-1].getPeca();
+        	}
+            Peca diagPretaEsq = null;
+            if(x>0) {
+            	diagPretaEsq = tabCasas[x-1][y-1].getPeca();
+            }
         	if(y == 6) { //está na casa inicial
     	        List<Integer> innerList = new ArrayList<>();
     	        List<Integer> innerList2 = new ArrayList<>();
@@ -101,12 +119,13 @@ class Peao extends Peca {
 		
 		return movimentosValidos;
 	}
-	
-//	@Override
-//	public boolean movimentoValido(int xDestino, int yDestino)
-//	{
-//		super.movimentoValido(xDestino, yDestino);
-//		System.out.println("aaaaaaaa");
-//		return true;
-//	}
+	/*
+	@Override
+	public boolean movimentoValido(int xDestino, int yDestino)
+	{
+		super.movimentoValido(xDestino, yDestino);
+		System.out.println("aaaaaaaa");
+		return true;
+	}
+	*/
 }

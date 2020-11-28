@@ -24,7 +24,7 @@ public class FrameTabuleiro extends JFrame {
 		setTitle("Tabuleiro");
 		
 		getContentPane().add(new PainelTabuleiro(this));
-//		ModelFacade.getInstance().iniciaPartida();
 		Controller.getInstance().iniciaTabuleiro();
+		//		ModelFacade.getInstance().iniciaPartida();
 	}
 }

@@ -64,8 +64,10 @@ class Peca {
 	{
 		List<List<Integer>> movimentosValidos = this.getMovimentosValidos();
 		for(List<Integer> mov: movimentosValidos) {
-			if(mov.get(0) == xDestino && mov.get(1) == yDestino)
-				return true;
+			if(mov.size() > 0) {
+				if(mov.get(0) == xDestino && mov.get(1) == yDestino)
+					return true;				
+			}
 		}
 		return false;
 	}
