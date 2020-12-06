@@ -24,7 +24,7 @@ public class Controller {
 		ctrl.painel = p;
 	}
 	
-	public void mostraSelecaoPromocao() {
+	public void mostraSelecaoPromocao() {	
 		ctrl.painel.mostraSelecaoPromocao();
 	}
 	

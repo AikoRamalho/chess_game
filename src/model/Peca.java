@@ -60,6 +60,11 @@ class Peca {
 		this.cor = cor;
 	}
 	
+	public void movePara(int x, int y) {
+		this.setX(x);
+		this.setY(y);
+	}
+	
 	public boolean movimentoValido(int xDestino, int yDestino)
 	{
 		List<List<Integer>> movimentosValidos = this.getMovimentosValidos();

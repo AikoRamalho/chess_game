@@ -8,7 +8,8 @@ import common.Cor;
 import common.TiposPeca;
 
 class Rei extends Peca {
-
+	private boolean jaMovimentou = false;
+	private boolean Roque = false;
 	public Rei(Cor cor, int x, int y) {
 		super(TiposPeca.REI,cor, x, y);
 		// TODO Auto-generated constructor stub
@@ -482,6 +483,92 @@ class Rei extends Peca {
 		return innerList;
 	}
 	
+	private List<Integer> getRoquePequeno(Casa[][] tabCasas) {
+		List<Integer> innerList = new ArrayList<>();
+		// nao esta em xeque e nao se movimentou ainda
+		if(!isChecked() && jaMovimentou == false) { 
+			if(this.getCor() == Cor.BRANCO) {
+				// é torre e nao foi movimentada ainda
+				if(tabCasas[7][0].getPeca() instanceof Torre && 
+						!((Torre) tabCasas[7][0].getPeca()).isJaMovimentou()) {
+					// Nao ha peca no caminho
+					if(tabCasas[this.x+1][0].getPeca() == null &&
+							tabCasas[this.x+2][0].getPeca() == null) {
+						// Casa nao e de dominio inimigo
+						if(!posicaoColocaReiEmCheque(this.x+1,0) && 
+								!posicaoColocaReiEmCheque(this.x+2,0)) {
+							innerList.add(x+2);
+							innerList.add(0);
+							return innerList;
+						}
+					}
+				}
+			} else {
+				// é torre e nao foi movimentada ainda
+				if(tabCasas[7][7].getPeca() instanceof Torre && 
+						!((Torre) tabCasas[7][7].getPeca()).isJaMovimentou()) {
+					// Nao ha peca no caminho
+					if(tabCasas[this.x+1][7].getPeca() == null &&
+							tabCasas[this.x+2][7].getPeca() == null) {
+						// Casa nao e de dominio inimigo
+						if(!posicaoColocaReiEmCheque(this.x+1,7) && 
+								!posicaoColocaReiEmCheque(this.x+2,7)) {
+							innerList.add(x+2);
+							innerList.add(7);
+							return innerList;
+						}
+					}
+				}
+			}			
+		}
+		return innerList;
+	}
+	
+	private List<Integer> getRoqueLongo(Casa[][] tabCasas) {
+		List<Integer> innerList = new ArrayList<>();
+		// nao esta em xeque e nao se movimentou ainda
+		if(!isChecked() && jaMovimentou == false) { 
+			if(this.getCor() == Cor.BRANCO) {
+				// é torre e nao foi movimentada ainda
+				if(tabCasas[0][0].getPeca() instanceof Torre && 
+						!((Torre) tabCasas[0][0].getPeca()).isJaMovimentou()) {
+					// Nao ha peca no caminho
+					if(tabCasas[x-1][0].getPeca() == null &&
+							tabCasas[x-2][0].getPeca() == null &&
+							tabCasas[x-3][0].getPeca() == null) {
+						// Casa nao e de dominio inimigo
+						if(!posicaoColocaReiEmCheque(x-1,0) && 
+								!posicaoColocaReiEmCheque(x-2,0) &&
+								!posicaoColocaReiEmCheque(x-3,0)) {
+							innerList.add(x-2);
+							innerList.add(0);
+							return innerList;
+						}
+					}
+				}
+			} else {
+				// é torre e nao foi movimentada ainda
+				if(tabCasas[0][7].getPeca() instanceof Torre && 
+						!((Torre) tabCasas[0][7].getPeca()).isJaMovimentou()) {
+					// Nao ha peca no caminho
+					if(tabCasas[x-1][7].getPeca() == null &&
+							tabCasas[x-2][7].getPeca() == null &&
+							tabCasas[x-3][7].getPeca() == null) {
+						// Casa nao e de dominio inimigo
+						if(!posicaoColocaReiEmCheque(x-1,7) && 
+								!posicaoColocaReiEmCheque(x-2,7) &&
+								!posicaoColocaReiEmCheque(x-3,7)) {
+							innerList.add(x-2);
+							innerList.add(7);
+							return innerList;
+						}
+					}
+				}
+			}			
+		}
+		return innerList;
+	}
+	
 	private List<List<Integer>> movimentosDoRei() {
 		List<List<Integer>> listOfLists = new ArrayList<>();
 		int xRei = this.x;
@@ -496,9 +583,36 @@ class Rei extends Peca {
 		listOfLists.add(getDiagonalEsquerdaSuperior(xRei, yRei, t.getCasas()));
 		listOfLists.add(getEsquerda(xRei, yRei, t.getCasas()));
 		listOfLists.add(getDiagonalEsquerdaInferior(xRei, yRei, t.getCasas()));
-		
+		listOfLists.add(getRoquePequeno(t.getCasas()));
+		listOfLists.add(getRoqueLongo(t.getCasas()));
 		listOfLists.removeIf(mov -> mov.size() == 0 || posicaoColocaReiEmCheque(mov.get(0),mov.get(1)));
 		return listOfLists;
+	}
+	
+	public boolean isJaMovimentou() {
+		return jaMovimentou;
+	}
+	
+	public boolean isRoque(int x, int y) {
+		Tabuleiro t = Tabuleiro.getTabuleiro();
+		List<List<Integer>> listOfLists = new ArrayList<>();
+		listOfLists.add(getRoquePequeno(t.getCasas()));
+		listOfLists.add(getRoqueLongo(t.getCasas()));
+		for(List<Integer> mov: listOfLists) {
+			if(mov.size() > 0) {
+				if(mov.get(0) == x && mov.get(1) == y)
+					return true;
+			}
+		}
+		return false;	
+	}
+	
+	@Override
+	public void movePara(int x, int y) {
+		if(!this.jaMovimentou)
+			this.jaMovimentou = true;
+		this.setX(x);
+		this.setY(y);
 	}
 
 	@Override
