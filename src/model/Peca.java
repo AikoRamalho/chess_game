@@ -20,7 +20,7 @@ class Peca {
 		this.x = x;
 		this.y = y;
 	}
-
+	
 	public Estado getEstado() {
 		return this.estado;
 	}

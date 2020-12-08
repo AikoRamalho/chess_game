@@ -3,14 +3,17 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.Cor;
 import common.Estado;
 import common.Observable;
 import common.Observer;
+import common.TiposPeca;
 
 class Tabuleiro implements Observable {
 	private Casa[][] casas = new Casa[8][8];
 	private static Tabuleiro staticTabuleiro = null; // a gente quer um tab so pro jogo inteiro entao a gente cria um estatico p/ nao criar diferentes instancias
 	private static Peca selecionada = null; //peca do tabuleiro selecionada
+	private int[] coordUpgrade = null; // Coordenadas do peão que deve ser aprimorado
 	List<Observer> lob=new ArrayList<Observer>();
 	
 	public static Tabuleiro getTabuleiro(Jogador j, Jogador j2) {
@@ -59,22 +62,52 @@ class Tabuleiro implements Observable {
 		if(xDestino < 0 || xDestino > 7 || yDestino < 0 || yDestino > 7) {
 			return false;
 		}
+		
 		// Verifica se a casa selecionanda contem peca aliada
-		if(staticTabuleiro.casas[xDestino][yDestino].getPeca() != null && 
-				staticTabuleiro.casas[xDestino][yDestino].getPeca().getCor() == selecionada.getCor()) {
-//			return false;
+		Peca pecaDestino = staticTabuleiro.casas[xDestino][yDestino].getPeca();
+		if(pecaDestino != null && pecaDestino.getCor() == selecionada.getCor()) {
 			if(selecionada instanceof Rei) {
 				selecionada.movimentoValido(xDestino, yDestino);
 			} else {
 				return false;
 			}
 		}
-		// Verifica se a casa selecionanda é um movimento valido da peca
-//		if(selecionada.movimentoValido(xDestino, yDestino)) {
-//			return false;
-//		}
-//		return true;
-		return selecionada.movimentoValido(xDestino, yDestino);
+		
+		if (selecionada.movimentoValido(xDestino, yDestino) == false) {
+			return false;
+		}
+
+		Cor corSelec = selecionada.getCor();
+		Boolean linhaFinal = (corSelec == Cor.BRANCO && yDestino == 7) ||
+							 (corSelec == Cor.PRETO && yDestino == 0);
+		
+		if (selecionada instanceof Peao && linhaFinal) {
+			this.coordUpgrade = new int[] {xDestino, yDestino};
+			for(Observer o:lob) {
+				o.notify(this);
+			}
+		}
+		
+		return true;
+	}
+	
+	// Busca o peão que chegou na última linha e aplica o upgrade escolhido nele.
+	void melhorarPeao(TiposPeca novoTipo) {
+		Cor corAtual = ModelFacade.mf.partida.jogadorDaVez.cor;
+		int linhaFoco = corAtual == Cor.BRANCO ? 0 : 7;
+		
+		for (int col = 0; col < 8; col++) {
+			Casa casaAtual = staticTabuleiro.casas[col][linhaFoco];
+			Peca pecaAtual = casaAtual.getPeca();
+			if (pecaAtual != null && pecaAtual.getCor() != corAtual) {
+				casaAtual.upgradePeca(novoTipo);
+				break;
+			}
+		}
+		
+		for (Observer o:lob) {
+			o.notify(this);
+		}
 	}
 	
 	public void setTabuleiro(Jogador j, Jogador j2) {
@@ -84,8 +117,10 @@ class Tabuleiro implements Observable {
 			}
 		}
 		for(int i=0; i<j.getPecas().size(); i++){
-			staticTabuleiro.casas[j.getPecas().get(i).getX()][j.getPecas().get(i).getY()].ocupaCasa(j.getPecas().get(i));
-			staticTabuleiro.casas[j2.getPecas().get(i).getX()][j2.getPecas().get(i).getY()].ocupaCasa(j2.getPecas().get(i));
+			Casa casaJog1 = staticTabuleiro.casas[j.getPecas().get(i).getX()][j.getPecas().get(i).getY()];
+			Casa casaJog2 = staticTabuleiro.casas[j2.getPecas().get(i).getX()][j2.getPecas().get(i).getY()];
+			casaJog1.ocupaCasa(j.getPecas().get(i));
+			casaJog2.ocupaCasa(j2.getPecas().get(i));
         }
 		
 		for(Observer o:lob) {
@@ -145,6 +180,9 @@ class Tabuleiro implements Observable {
 		return staticTabuleiro.casas[x][y].getPeca();
 	}
 	
+	public void upgradePeca(int x, int y, TiposPeca a) {
+		staticTabuleiro.casas[x][y].upgradePeca(a);
+	}
 	public List<Peca> getAllPecas() {
 		List<Peca> lista = new ArrayList<>();
 		for(int x = 0; x<8;x++) {
@@ -192,8 +230,10 @@ class Tabuleiro implements Observable {
 	@Override
 	public Object get() {
 		// TODO Auto-generated method stub
-		Object dados[]=new Object[1];
-		dados[0]=this.getDisposicaoPecas();
+		Object dados[] = new Object[2];
+		dados[0] = this.getDisposicaoPecas();
+		dados[1] = this.coordUpgrade;
+		this.coordUpgrade = null;
 		return dados;
 	}
 	

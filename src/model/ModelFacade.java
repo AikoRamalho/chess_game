@@ -5,6 +5,7 @@ import java.util.List;
 
 import common.Cor;
 import common.Observer;
+import common.TiposPeca;
 
 public class ModelFacade {
 	public static ModelFacade mf = null;
@@ -54,6 +55,10 @@ public class ModelFacade {
 	public boolean selecionaCasa(int linhaCasaDesejada, int colunaCasaDesejada) {
 //		Peca aux = tb.selecionaPeca(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
 		return tb.selecionaCasa(linhaCasaDesejada, colunaCasaDesejada, partida.jogadorDaVez);
+	}
+	
+	public void melhorarPeao(TiposPeca novoTipo) {
+		tb.melhorarPeao(novoTipo);
 	}
 	
 	public List<List<Object>> getDisposicaoPecas() {

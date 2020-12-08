@@ -1,5 +1,8 @@
 package model;
 
+import common.Cor;
+import common.TiposPeca;
+
 class Casa {
 	private Peca peca;
 	private int x;
@@ -11,6 +14,28 @@ class Casa {
 		this.setY(y);
 		this.setPeca(peca);
 	}
+
+	public void upgradePeca(TiposPeca novoTipo) {
+		Cor cor = this.peca.getCor();
+		
+		switch (novoTipo) {
+		case BISPO:
+			this.setPeca(new Bispo(cor, x, y));
+			break;
+		case CAVALO:
+			this.setPeca(new Cavalo(cor, x, y));
+			break;
+		case RAINHA:
+			this.setPeca(new Rainha(cor, x, y));
+			break;
+		case TORRE:
+			this.setPeca(new Torre(cor, x, y));
+			break;
+		default:
+			break;
+		}
+	}
+
 	
 
 	public void ocupaCasa(Peca peca){
