@@ -79,7 +79,19 @@ class Peao extends Peca {
     	        listOfLists.add(innerList);
     	        innerList2.add(x);
     	        innerList2.add(y-2);
-    	        listOfLists.add(innerList2);	        
+    	        listOfLists.add(innerList2);	
+    	        if(x+1 < 8 && diagPretaDir != null && diagPretaDir.getCor() == Cor.BRANCO) {
+    	        	List<Integer> innerList1 = new ArrayList<>();
+    	        	innerList1.add(x+1);
+    		        innerList1.add(y-1);
+    				listOfLists.add(innerList1);
+    	        }
+    			if(x-1 >= 0 && diagPretaEsq != null && diagPretaEsq.getCor() == Cor.BRANCO) {
+    	        	List<Integer> innerList1 = new ArrayList<>();
+    	        	innerList1.add(x-1);
+    	        	innerList1.add(y-1);
+    				listOfLists.add(innerList1);
+    	        }
             }
         	else {
         		if(y-1 >= 0) {
