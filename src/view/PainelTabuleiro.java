@@ -146,8 +146,9 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		
 	}
 	
-	public void mostraSelecaoPromocao() {
-		promocaoPopup.show(this, 320, 320);
+	public void mostraSelecaoPromocao(int cellX, int cellY) {
+		Celula celula = celulas[cellX][7-cellY];
+		promocaoPopup.show(this, (int)celula.getX(), (int)celula.getY());
 	}
 	
 	public void mostraDialogoVencedorFechaJogo(String nomeVencedor) {
@@ -175,6 +176,9 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 				}
 				return;
 			} else { // Selecionando casa
+				// usar o facade para saber se a casa selecionada é valida,
+				// ,caso seja, usar o facade para mover a peca.
+				//System.out.println(facade.selecionaCasa(x, y));
 				if(facade.selecionaCasa(x, y)) {
 					facade.movePecaDePara(
 						pecaSelecionada[0],
@@ -203,6 +207,10 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	public void notify(Observable o) {
 		obs=o;
 		lob=(Object []) obs.get();
+		int[] coordsUpgrade = (int[]) lob[1];
+		if (coordsUpgrade != null) {
+			this.mostraSelecaoPromocao(coordsUpgrade[0], coordsUpgrade[1]);
+		}
 		dispPecas.clear();
 		dispPecas = (List<List<Object>>) lob[0];		
 		this.repaint();

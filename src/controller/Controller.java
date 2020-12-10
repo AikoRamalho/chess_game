@@ -24,12 +24,8 @@ public class Controller {
 		ctrl.painel = p;
 	}
 	
-	public void mostraSelecaoPromocao() {	
-		ctrl.painel.mostraSelecaoPromocao();
-	}
-	
 	public void resultadoSelecaoPromocao(TiposPeca tipo) {
-		//TODO: vai no facade e avisa o tipo escolhido para a promocao do peao
+		ctrl.facade.melhorarPeao(tipo);
 	}
 	
 	public void iniciaJogo() {

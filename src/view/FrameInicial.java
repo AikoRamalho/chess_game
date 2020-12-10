@@ -12,6 +12,8 @@ import javax.swing.*;
 
 import controller.Controller;
 import model.ModelFacade;
+import javax.swing.*;  
+import java.awt.event.*;  
 
 public class FrameInicial extends JFrame implements ActionListener {
 	public final int LARG_DEFAULT=400;
@@ -46,7 +48,7 @@ public class FrameInicial extends JFrame implements ActionListener {
 		
 		setTitle("Tela Inicial");
 		p.setBackground(Color.WHITE);
-		getContentPane().add(p);	
+		getContentPane().add(p);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
