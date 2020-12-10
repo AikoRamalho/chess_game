@@ -2,16 +2,22 @@ package view;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import common.Cor;
 import common.Observable;
 import common.Observer;
 import common.TiposPeca;
+import controller.Controller;
 import model.ModelFacade;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.*;
@@ -23,19 +29,24 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	private Celula [][] celulas = new Celula[8][8];
 	private final double ladoRetangulo = 70.0;
 	private int[] pecaSelecionada = null;
+	private JFrame container;
+	private JPopupMenu promocaoPopup;
+	Controller ctrl = Controller.getInstance();
 	ModelFacade facade = ModelFacade.getInstance();// talvez seja melhor o controller
 	Observable obs;
 	Object lob[];
 	List<List<Object>> dispPecas = new ArrayList<>();
 	
-	public PainelTabuleiro() {
+	public PainelTabuleiro(JFrame container) {
+		this.container = container;
 		addMouseListener(this);
 		facade.register(this);
 		this.setCelulas(this.ladoRetangulo);
+		this.criaPopUpMenu();
+		Controller.getInstance().setPainel(this);
 	}
 	
 	private void setCelulas(double lado) {
-		// Notar que a posicao (0,0) é a superior esquerda, 7-linha necessario para ajustar.
 		for(int x = 0; x<8; x++) {
 			double leftX=lado*x;
 			for(int y = 0; y<8; y++) {
@@ -56,12 +67,12 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		}
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d=(Graphics2D) g;
 		
 		this.drawRetangulos(g2d);
-//		this.drawImage(g2d, 1, 5, TiposPeca.PEAO, Cor.BRANCO); // Teste
 		this.drawAllImages(g2d);
 	}
 	
@@ -103,7 +114,6 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	
 	private void marcaMovimentosValidos(List<List<Integer>> movimentos) {
 		for(List<Integer> mov: movimentos) {
-			// Talvez tenha que inverter
 			int x = mov.get(0);
 			int y = 7-mov.get(1);
 			celulas[x][y].changeMarcada();
@@ -120,7 +130,30 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		this.repaint();
 	}
 	
-	// TODO: Aplicar a logica do jogo usando o Facade.
+	private void criaPopUpMenu() {
+		promocaoPopup = new JPopupMenu();
+		
+		TratadorDePromocao promoItemListener = new TratadorDePromocao();
+		
+		promocaoPopup.add(new JMenuItem("Rainha")).addActionListener(promoItemListener);
+		promocaoPopup.add(new JMenuItem("Bispo")).addActionListener(promoItemListener);
+		promocaoPopup.add(new JMenuItem("Torre")).addActionListener(promoItemListener);
+		promocaoPopup.add(new JMenuItem("Cavalo")).addActionListener(promoItemListener);
+		promocaoPopup.setVisible(false);
+		
+//		promocaoPopup.show(this, e.getX(), e.getY());
+	}
+	
+	public void mostraSelecaoPromocao() {
+		promocaoPopup.show(this, 320, 320);
+	}
+	
+	public void mostraDialogoVencedorFechaJogo() {
+		JOptionPane.showMessageDialog(this, "Vencedor: (nome de quem ganhou)", "Resultado", JOptionPane.INFORMATION_MESSAGE);
+		container.dispose();
+		ctrl.reiniciaJogo();
+	}
+	
 	public void mouseClicked(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {			
 			int x=e.getX()/(int)ladoRetangulo;
@@ -128,11 +161,8 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 			y = 7-y;
 			
 			if(pecaSelecionada == null) { // Selecionando peca
-				
-				// Usar o facade para saber se a peca selecionada é valida,
-				// caso seja, pedir os movimentos validos da peca,
-				// usar marcaMovimentosValidos e pecaSelecionada = [linha, coluna].
 				if(facade.selecionaPeca(x, y)) {
+					System.out.println(facade.getMovimentosValidosDaPeca(x, y));
 					this.marcaMovimentosValidos(
 							facade.getMovimentosValidosDaPeca(x, y));
 					pecaSelecionada = new int[2];
@@ -141,21 +171,13 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 				}
 				return;
 			} else { // Selecionando casa
-				// usar o facade para saber se a casa selecionada é valida,
-				// ,caso seja, usar o facade para mover a peca.
-				System.out.println(facade.selecionaCasa(x, y));
 				if(facade.selecionaCasa(x, y)) {
-//					System.out.printf("%d %d %d %d\n",pecaSelecionada[0],pecaSelecionada[1],
-//							x,y);
 					facade.movePecaDePara(pecaSelecionada[0],pecaSelecionada[1],
 							x,y);
 				}
 				this.desmarcaMovimentosValidos();
 				pecaSelecionada = null;
 			}
-//			pecaSelecionada = null;
-//			desmarcaMovimentosValidos();			
-//			this.repaint(); // Chama paintComponent() novamente
 			
 		} else if(SwingUtilities.isRightMouseButton(e)) {
 			// TODO: continuar em futura iteracao
@@ -164,23 +186,6 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		}
 		return;
 	}
-	
-//	public void mouseClicked(MouseEvent e) {
-//		if(SwingUtilities.isLeftMouseButton(e)) {			
-//			int x = e.getX()/(int)this.ladoRetangulo;
-//			int y = e.getY()/(int)this.ladoRetangulo;
-//			
-//			celulas[x][y].changeMarcada();
-//			this.repaint(); // Chama paintComponent() novamente
-//			
-//		} else if(SwingUtilities.isRightMouseButton(e)) {
-//			// TODO: continuar em futura iteracao
-//			JFileChooser jFileChooser = new JFileChooser();
-//        	int result = jFileChooser.showOpenDialog(new JFrame());
-//		} else {
-//			return;
-//		}
-//	}
 	
 	public void mouseEntered(MouseEvent e) {}
 	public void mousePressed(MouseEvent e) {}
@@ -194,5 +199,29 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		dispPecas.clear();
 		dispPecas = (List<List<Object>>) lob[0];		
 		this.repaint();
+	}
+
+	public class TratadorDePromocao implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			switch (e.getActionCommand().toString()) {
+			case "Rainha":
+				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.RAINHA);
+				break;
+			case "Bispo":
+				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.BISPO);
+				break;
+			case "Torre":
+				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.TORRE);
+				break;
+			case "Cavalo":
+				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.CAVALO);
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 }
