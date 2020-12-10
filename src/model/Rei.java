@@ -305,46 +305,6 @@ class Rei extends Peca {
 		
 	}
 	
-	boolean isChecked (int x, int y) {
-		int xRei = x;
-		int yRei = y;
-		Tabuleiro t = Tabuleiro.getTabuleiro();
-		
-		if (t == null) {
-			return false;
-		}
-		
-		Casa[][] tabCasas = t.getCasas();	
-
-		// Vamos come�ar verificando variando em y [0, 7]
-		boolean yPositivo = this.xequeSuperior(xRei, yRei, tabCasas);
-		boolean yNegativo = this.xequeInferior(xRei, yRei, tabCasas);
-		
-		// verificar entre x [0, 7]
-		boolean xPositivo = this.xequeDiagonalDireitaInferior(xRei, yRei, tabCasas);
-		boolean xNegativo = this.xequeDiagonalEsquerdaSuperior(xRei, yRei, tabCasas);
-		
-		// checar todas as diagonais
-		boolean xPositivoYPositivo = this.xequeDiagonalDireitaSuperior(xRei, yRei, tabCasas);
-		boolean xNegativoYPositivo = this.xequeDiagonalEsquerdaSuperior(xRei, yRei, tabCasas);
-		boolean xNegativoYNegativo = this.xequeDiagonalEsquerdaInferior(xRei, yRei, tabCasas);
-		boolean xPositivoYNegativo = this.xequeDiagonalDireitaInferior(xRei, yRei, tabCasas);
-		
-		//checar se tem pe�o checando o rei
-		boolean reiChequePorPeao = checaSePeaoChecouRei(xRei, yRei, tabCasas);
-		
-		// cavalo checando o rei
-		boolean reiChequePorCavalo = this.checaSeCavaloChecouRei(xRei, yRei, tabCasas);
-		
-		//ainda falta checar se tem um rei checando o rei mas vamos deixar isso p deois
-		
-		return yPositivo && yNegativo && xPositivoYPositivo &&
-				xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo &&
-				reiChequePorPeao && xPositivo && xNegativo && reiChequePorCavalo;
-		
-	}
-		
-	
 	
 	private boolean checaSeCavaloChecouRei(int xRei, int yRei, Casa[][] tabCasas) {
 		if(yRei+2 < 8 && xRei+1 < 8) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
@@ -715,7 +675,7 @@ class Rei extends Peca {
 		}
 		return false;	
 	}
-	
+		
 	@Override
 	public void movePara(int x, int y) {
 		if(!this.jaMovimentou)
