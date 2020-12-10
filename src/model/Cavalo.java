@@ -28,60 +28,132 @@ class Cavalo extends Peca {
 	private List<List<Integer>> getCasas(int x, int y, Casa[][] tabCasas) {
         List<List<Integer>> listOfLists = new ArrayList<>();
         
-        if(this.getMovimentoValidoPos(x+1, y+2, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x+1);
-			innerList.add(y+2);
-	        listOfLists.add(innerList);
+        if(x+1 < 8 && y+2 < 8) {
+        	int novoX = x+1;
+        	int novoY = y+2;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);        		
+        	} else if(tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList); 
+        	}
         }
 
-        if(this.getMovimentoValidoPos(x+2, y+1, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x+2);
-			innerList.add(y+1);
-	        listOfLists.add(innerList);
+        if(x+2 < 8 && y+1 < 8) {
+        	int novoX = x+2;
+        	int novoY = y+1;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x+2, y-1, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x+2);
-			innerList.add(y-1);
-	        listOfLists.add(innerList);
+        if(x+2 < 8 && y-1 >= 0) {
+        	int novoX = x+2;
+        	int novoY = y-1;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x+1, y-2, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x+1);
-			innerList.add(y-2);
-	        listOfLists.add(innerList);
+        if(x+1 < 8 && y-2 >= 0) {
+        	int novoX = x+1;
+        	int novoY = y-2;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x-1, y-2, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x-1);
-			innerList.add(y-2);
-	        listOfLists.add(innerList);
+        if(x-1 >= 0 && y-2 >= 0) {
+        	int novoX = x-1;
+        	int novoY = y-2;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x-2, y-1, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x-2);
-			innerList.add(y-1);
-	        listOfLists.add(innerList);
+        if(x-2 >= 0 && y-1 >= 0) {
+        	int novoX = x-2;
+        	int novoY = y-1;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x-2, y+1, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x-2);
-			innerList.add(y+1);
-	        listOfLists.add(innerList);
+        if(x-2 >= 0 && y+1 < 8) {
+        	int novoX = x-2;
+        	int novoY = y+1;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
-        if(this.getMovimentoValidoPos(x-1, y+2, tabCasas)) {
-	        List<Integer> innerList = new ArrayList<>();
-	        innerList.add(x-1);
-			innerList.add(y+2);
-	        listOfLists.add(innerList);
+        if(x-1 >= 0 && y+2 < 8) {
+        	int novoX = x-1;
+        	int novoY = y+2;
+        	if(tabCasas[novoX][novoY].getPeca() == null) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	} else if (tabCasas[novoX][novoY].getPeca().getCor() != this.getCor()) {
+        		List<Integer> innerList = new ArrayList<>();
+        		innerList.add(novoX);
+        		innerList.add(novoY);
+        		listOfLists.add(innerList);
+        	}
         }
         
         System.out.println(listOfLists);

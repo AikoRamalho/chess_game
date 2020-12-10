@@ -54,9 +54,11 @@ public class FrameInicial extends JFrame implements ActionListener {
 		
 		if (command.equals("novo")) {
 			this.dispose();
+//			ModelFacade mf = ModelFacade.getInstance();
+//	    	mf.setPartida("p1", "p2");
 			Controller.getInstance().iniciaPartida();
 	    	new FrameTabuleiro().setVisible(true);
-						
+	    	
         } else if (command.equals("carrega")) {
         	JFileChooser jFileChooser = new JFileChooser();
         	int result = jFileChooser.showOpenDialog(new JFrame());

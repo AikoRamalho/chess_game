@@ -60,12 +60,19 @@ class Peca {
 		this.cor = cor;
 	}
 	
+	public void movePara(int x, int y) {
+		this.setX(x);
+		this.setY(y);
+	}
+	
 	public boolean movimentoValido(int xDestino, int yDestino)
 	{
 		List<List<Integer>> movimentosValidos = this.getMovimentosValidos();
 		for(List<Integer> mov: movimentosValidos) {
-			if(mov.get(0) == xDestino && mov.get(1) == yDestino)
-				return true;
+			if(mov.size() > 0) {
+				if(mov.get(0) == xDestino && mov.get(1) == yDestino)
+					return true;				
+			}
 		}
 		return false;
 	}

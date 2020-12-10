@@ -62,7 +62,12 @@ class Tabuleiro implements Observable {
 		// Verifica se a casa selecionanda contem peca aliada
 		if(staticTabuleiro.casas[xDestino][yDestino].getPeca() != null && 
 				staticTabuleiro.casas[xDestino][yDestino].getPeca().getCor() == selecionada.getCor()) {
-			return false;
+//			return false;
+			if(selecionada instanceof Rei) {
+				selecionada.movimentoValido(xDestino, yDestino);
+			} else {
+				return false;
+			}
 		}
 		// Verifica se a casa selecionanda é um movimento valido da peca
 //		if(selecionada.movimentoValido(xDestino, yDestino)) {
@@ -92,18 +97,41 @@ class Tabuleiro implements Observable {
 		Peca pecaParaMover = staticTabuleiro.getPeca(xAtual, yAtual);
 		Peca pecaParaCapturar = staticTabuleiro.getPeca(xPara, yPara);
 		if(pecaParaCapturar == null) { // posicao vazia
-			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-			pecaParaMover.setX(xPara);
-			pecaParaMover.setY(yPara);
-			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+			// é roque
+			if(staticTabuleiro.casas[xAtual][yAtual].getPeca() instanceof Rei &&
+					((Rei)staticTabuleiro.casas[xAtual][yAtual].getPeca()).isRoque(xPara,yPara)) {
+				System.out.println("Roque");
+				if(xPara == 6) { // roque curto
+					Torre torre = (Torre)staticTabuleiro.casas[7][yPara].getPeca();
+					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+					pecaParaMover.movePara(xPara, yPara);
+					staticTabuleiro.casas[xPara-1][yPara].setPeca(torre);
+					torre.movePara(xPara-1, yPara);
+					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+				} else { // roque longo
+					Torre torre = (Torre)staticTabuleiro.casas[0][yPara].getPeca();
+					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+					pecaParaMover.movePara(xPara, yPara);
+					staticTabuleiro.casas[xPara+1][yPara].setPeca(torre);
+					torre.movePara(xPara+1, yPara);
+					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+				}
+			} else {
+				staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+//				pecaParaMover.setX(xPara);
+//				pecaParaMover.setY(yPara);
+				pecaParaMover.movePara(xPara, yPara);
+				staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+			}			
 		} else {
 			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-			pecaParaMover.setX(xPara);
-			pecaParaMover.setY(yPara);
+//			pecaParaMover.setX(xPara);
+//			pecaParaMover.setY(yPara);
+			pecaParaMover.movePara(xPara, yPara);
 			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
 			
-			pecaParaCapturar.setEstado();
 			// Talvez seja desnecessario.
+			pecaParaCapturar.setEstado();
 			pecaParaCapturar.setX(-1);
 			pecaParaCapturar.setY(-1);
 		}

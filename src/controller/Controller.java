@@ -24,7 +24,7 @@ public class Controller {
 		ctrl.painel = p;
 	}
 	
-	public void mostraSelecaoPromocao() {
+	public void mostraSelecaoPromocao() {	
 		ctrl.painel.mostraSelecaoPromocao();
 	}
 	
@@ -37,18 +37,18 @@ public class Controller {
 		ctrl.frame.setVisible(true);
 	}
 	
-	// Seta ambos os jogadores, nome da funcao talvez nao seja o melhor possive.
+	// Seta ambos os jogadores, nome da funcao talvez nao seja o melhor possivel.
 	public void iniciaPartida() {
 		ctrl.facade.setPartida("p1", "p2");
 	}
 	
-	// Distribui as pecas, nome da funcao talvez nao seja o melhor possive.
+	// Distribui as pecas, nome da funcao talvez nao seja o melhor possivel.
 	public void iniciaTabuleiro() {
 		ctrl.facade.iniciaPartida();
 	}
 	
-	public void mostraDialogoReiniciaJogo() {
-		ctrl.painel.mostraDialogoVencedorFechaJogo();
+	public void mostraDialogoReiniciaJogo(String nomeVencedor) {
+		ctrl.painel.mostraDialogoVencedorFechaJogo(nomeVencedor);
 	}
 	
 	public void reiniciaJogo() {
@@ -56,9 +56,10 @@ public class Controller {
 		ctrl.frame = new FrameInicial();
 		ctrl.frame.setVisible(true);
 	}
-	
-	public static void main(String[] args) {    	
+
+	public static void main(String[] args) {
 		Controller ctrl = Controller.getInstance();
 		ctrl.iniciaJogo();
 	}
+
 }
