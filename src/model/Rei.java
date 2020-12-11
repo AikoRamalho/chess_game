@@ -282,8 +282,8 @@ class Rei extends Peca {
 		boolean yNegativo = this.xequeInferior(xRei, yRei, tabCasas);
 		
 		// verificar entre x [0, 7]
-		boolean xPositivo = this.checkXPositivo(xRei, yRei, tabCasas);
-		boolean xNegativo = this.checkXNegativo(xRei, yRei, tabCasas);
+		boolean xPositivo = this.xequeDiagonalDireitaInferior(xRei, yRei, tabCasas);
+		boolean xNegativo = this.xequeDiagonalEsquerdaSuperior(xRei, yRei, tabCasas);
 		
 		// checar todas as diagonais
 		boolean xPositivoYPositivo = this.xequeDiagonalDireitaSuperior(xRei, yRei, tabCasas);
@@ -301,6 +301,7 @@ class Rei extends Peca {
 		return yPositivo && yNegativo && xPositivoYPositivo && xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo && reiChequePorPeao && xPositivo && xNegativo;
 		
 	}
+		
 	
 	private boolean posicaoColocaReiEmCheque(int x, int y) {
 		Tabuleiro t = Tabuleiro.getTabuleiro();
@@ -606,7 +607,7 @@ class Rei extends Peca {
 		}
 		return false;	
 	}
-		
+	
 	@Override
 	public void movePara(int x, int y) {
 		if(!this.jaMovimentou)
