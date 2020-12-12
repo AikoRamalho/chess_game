@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.Controller;
 import model.ModelFacade;
@@ -56,15 +57,20 @@ public class FrameInicial extends JFrame implements ActionListener {
 		
 		if (command.equals("novo")) {
 			this.dispose();
-//			ModelFacade mf = ModelFacade.getInstance();
-//	    	mf.setPartida("p1", "p2");
 			Controller.getInstance().iniciaPartida();
-	    	new FrameTabuleiro().setVisible(true);
+	    	new FrameTabuleiro(null).setVisible(true);
 	    	
         } else if (command.equals("carrega")) {
         	JFileChooser jFileChooser = new JFileChooser();
+        	FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        	jFileChooser.setFileFilter(filter);
+        	
         	int result = jFileChooser.showOpenDialog(new JFrame());
-        	// TODO: continuar em futura iteracao
+        	if(result == JFileChooser.APPROVE_OPTION) {
+        		this.dispose();
+    			Controller.getInstance().iniciaPartida();
+    	    	new FrameTabuleiro(jFileChooser.getSelectedFile()).setVisible(true);
+        	}
         }
 	}
 	

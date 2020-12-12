@@ -97,6 +97,11 @@ public class ModelFacade {
 			e.printStackTrace();
 		}
 	}
+	
+	public void carregaPartida(String nomeJogadorAtual, List<List<Object>> disposicaoPecas) {
+		partida.setJogadorDaVez(nomeJogadorAtual);
+		tb.setDisposicaoPecas(disposicaoPecas);
+	}
 
 //	public static void main(String[] args) {
 //		Tabuleiro.getTabuleiro(new Jogador("aiko", Cor.BRANCO), new Jogador("ajsdkljas", Cor.PRETO));

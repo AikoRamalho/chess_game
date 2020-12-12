@@ -31,4 +31,9 @@ class Partida {
 		else
 			this.jogadorDaVez = jogador1;
 	}
+
+	protected void setJogadorDaVez(String nome) {
+		if(!this.jogadorDaVez.nome.equals(nome))
+			passaVez();
+	}
 }

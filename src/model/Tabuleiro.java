@@ -295,6 +295,25 @@ class Tabuleiro implements Observable {
 		this.coordUpgrade = null;
 		return dados;
 	}
+
+	public void setDisposicaoPecas(List<List<Object>> disposicaoPecas) {
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				casas[x][y].setPeca(null);
+			}
+		}
+		for(List<Object> lst: disposicaoPecas) {
+			int x = Integer.parseInt((String) lst.get(0));
+			int y = Integer.parseInt((String) lst.get(1));
+			TiposPeca tipo = TiposPeca.valueOf((String) lst.get(2));
+			Cor cor = Cor.valueOf((String) lst.get(3));
+			casas[x][y].setPeca(tipo, cor);
+		}
+		
+		for(Observer o:lob) {
+			o.notify(this);
+		}
+	}
 	
     /*
     public static void main(String[] args) {

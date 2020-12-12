@@ -69,4 +69,29 @@ class Casa {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public void setPeca(TiposPeca tipo, Cor cor) {
+		switch (tipo) {
+		case PEAO:
+			this.setPeca(new Peao(cor, x, y));
+			break;
+		case BISPO:
+			this.setPeca(new Bispo(cor, x, y));
+			break;
+		case CAVALO:
+			this.setPeca(new Cavalo(cor, x, y));
+			break;
+		case RAINHA:
+			this.setPeca(new Rainha(cor, x, y));
+			break;
+		case TORRE:
+			this.setPeca(new Torre(cor, x, y));
+			break;
+		case REI:
+			this.setPeca(new Rei(cor, x, y));
+			break;
+		default:
+			break;
+		}
+	}
 }
