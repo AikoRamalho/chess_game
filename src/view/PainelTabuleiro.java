@@ -213,7 +213,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-        		
+        		JOptionPane.showMessageDialog(null, "Jogo salvo com sucesso.", "Concluído", 1);
         	}
 		}
 		return;
