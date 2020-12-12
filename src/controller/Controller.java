@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import common.TiposPeca;
 import model.ModelFacade;
 import view.FrameInicial;
