@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 class Torre extends Peca {
-	private boolean jaMovimentou = false;
+	
 	public Torre(Cor cor, int x, int y) {
 		super(TiposPeca.TORRE,cor, x, y);
 		// TODO Auto-generated constructor stub
@@ -90,18 +90,6 @@ class Torre extends Peca {
 		}
 		return listOfLists;
  	}
-	
-	public boolean isJaMovimentou() {
-		return jaMovimentou;
-	}
-
-	@Override
-	public void movePara(int x, int y) {
-		if(!this.jaMovimentou)
-			this.jaMovimentou = true;
-		this.setX(x);
-		this.setY(y);
-	}
 	
 	@Override
 	public List<List<Integer>> getMovimentosValidos() {

@@ -8,6 +8,7 @@ import common.Estado;
 import common.TiposPeca;
 
 class Peca {
+	private boolean jaMovimentou = false;
 	private Estado estado;
 	private Cor cor;
 	private TiposPeca tipo;
@@ -60,7 +61,13 @@ class Peca {
 		this.cor = cor;
 	}
 	
+	public boolean isJaMovimentou() {
+		return jaMovimentou;
+	}
+	
 	public void movePara(int x, int y) {
+		if(!this.jaMovimentou)
+			this.jaMovimentou = true;
 		this.setX(x);
 		this.setY(y);
 	}

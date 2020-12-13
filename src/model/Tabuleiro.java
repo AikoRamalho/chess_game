@@ -288,6 +288,7 @@ class Tabuleiro implements Observable {
 			innerList.add(peca.getY());
 			innerList.add(peca.getTipo());
 			innerList.add(peca.getCor());
+			innerList.add(peca.isJaMovimentou());
 			listOfLists.add(innerList);
 		}
 		return listOfLists;
