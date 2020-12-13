@@ -112,6 +112,8 @@ class Torre extends Peca {
 		
 		movimentosValidos.addAll(this.getCasasX(xTorre, yTorre, t.getCasas()));
 		movimentosValidos.addAll(this.getCasasY(xTorre, yTorre, t.getCasas()));
+		movimentosValidos.removeIf(mov -> t.getCasas()[mov.get(0)][mov.get(1)].getPeca() instanceof Rei);
+		movimentosValidos.removeIf(mov -> t.verificaMovimentoTiraDoXeque(this.getX(), this.getY(), mov.get(0), mov.get(1)));
 		return movimentosValidos;
 	}
 

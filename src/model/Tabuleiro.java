@@ -176,6 +176,65 @@ class Tabuleiro implements Observable {
 		}
 	}
 	
+	
+	
+	Rei getRei(Cor corPecaPraMover) {
+		List<Peca> pecas = staticTabuleiro.getAllPecas();
+		for (Peca peca: pecas) {
+			if(peca instanceof Rei && peca.getCor() == corPecaPraMover) {
+				return (Rei) peca;
+			}
+		}
+		return null;
+		
+	}
+	
+	public boolean verificaMovimentoTiraDoXeque(int xAtual, int yAtual, int xPara, int yPara) {
+		Peca pecaParaMover = staticTabuleiro.getPeca(xAtual, yAtual);
+		Rei rei = staticTabuleiro.getRei(pecaParaMover.getCor());
+		Peca pecaParaCapturar = staticTabuleiro.getPeca(xPara, yPara);
+		if(pecaParaCapturar == null) { // posicao vazia
+			// é roque
+			if(staticTabuleiro.casas[xAtual][yAtual].getPeca() instanceof Rei &&
+					((Rei)staticTabuleiro.casas[xAtual][yAtual].getPeca()).isRoque(xPara,yPara)) {
+				if(xPara == 6) { // roque curto
+					Torre torre = (Torre)staticTabuleiro.casas[7][yPara].getPeca();
+					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+					pecaParaMover.movePara(xPara, yPara);
+					staticTabuleiro.casas[xPara-1][yPara].setPeca(torre);
+					torre.movePara(xPara-1, yPara);
+					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+				} else { // roque longo
+					Torre torre = (Torre)staticTabuleiro.casas[0][yPara].getPeca();
+					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+					pecaParaMover.movePara(xPara, yPara);
+					staticTabuleiro.casas[xPara+1][yPara].setPeca(torre);
+					torre.movePara(xPara+1, yPara);
+					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+				}
+			} else {
+				staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+				pecaParaMover.movePara(xPara, yPara);
+				staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+				boolean valorDeRetorno = rei.isChecked();
+				staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
+				pecaParaMover.movePara(xAtual, yAtual);
+				staticTabuleiro.casas[xPara][yPara].setPeca(null);
+				return valorDeRetorno;
+			}			
+		} else {
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+			pecaParaMover.movePara(xPara, yPara);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+			boolean valorDeRetorno = rei.isChecked();
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaCapturar);
+			pecaParaMover.movePara(xAtual, yAtual);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
+			return valorDeRetorno;
+		}
+		return false;
+	}
+	
 	public Peca getPeca(int x, int y) {
 		return staticTabuleiro.casas[x][y].getPeca();
 	}
@@ -183,6 +242,7 @@ class Tabuleiro implements Observable {
 	public void upgradePeca(int x, int y, TiposPeca a) {
 		staticTabuleiro.casas[x][y].upgradePeca(a);
 	}
+	
 	public List<Peca> getAllPecas() {
 		List<Peca> lista = new ArrayList<>();
 		for(int x = 0; x<8;x++) {
@@ -208,6 +268,7 @@ class Tabuleiro implements Observable {
 		}
 		return listOfLists;
 	}
+	
 	
 	public static Peca getSelecionada() {
 		return selecionada;
@@ -235,6 +296,25 @@ class Tabuleiro implements Observable {
 		dados[1] = this.coordUpgrade;
 		this.coordUpgrade = null;
 		return dados;
+	}
+
+	public void setDisposicaoPecas(List<List<Object>> disposicaoPecas) {
+		for(int x = 0; x < 8; x++) {
+			for(int y = 0; y < 8; y++) {
+				casas[x][y].setPeca(null);
+			}
+		}
+		for(List<Object> lst: disposicaoPecas) {
+			int x = Integer.parseInt((String) lst.get(0));
+			int y = Integer.parseInt((String) lst.get(1));
+			TiposPeca tipo = TiposPeca.valueOf((String) lst.get(2));
+			Cor cor = Cor.valueOf((String) lst.get(3));
+			casas[x][y].setPeca(tipo, cor);
+		}
+		
+		for(Observer o:lob) {
+			o.notify(this);
+		}
 	}
 	
     /*

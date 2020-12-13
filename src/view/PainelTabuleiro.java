@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import common.Cor;
 import common.Observable;
@@ -21,6 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +117,9 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	}
 	
 	private void marcaMovimentosValidos(List<List<Integer>> movimentos) {
+		if (movimentos == null) {
+			return;
+		}
 		for(List<Integer> mov: movimentos) {
 			// Talvez tenha que inverter
 			if(mov.size() > 0) {				
@@ -157,7 +164,6 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		ctrl.reiniciaJogo();
 	}
 	
-	// TODO: Aplicar a logica do jogo usando o Facade.
 	public void mouseClicked(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {			
 			int x=e.getX()/(int)ladoRetangulo;
@@ -190,12 +196,25 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 				this.desmarcaMovimentosValidos();
 				pecaSelecionada = null;
 			}
-		} else if(SwingUtilities.isRightMouseButton(e)) {
-			// TODO: continuar em futura iteracao
+		} else if(SwingUtilities.isRightMouseButton(e)) { //salvar jogo
+		
 			JFileChooser jFileChooser = new JFileChooser();
-        	int result = jFileChooser.showOpenDialog(new JFrame());
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text"); //filtro .txt
+			jFileChooser.setFileFilter(filter);
+        	int result = jFileChooser.showSaveDialog(new JFrame());
+        	if(result == JFileChooser.APPROVE_OPTION) {
+        		File file = jFileChooser.getSelectedFile();
+        		String fileName = file.getAbsolutePath();
+        		if(!fileName.endsWith(".txt"))
+        			fileName = fileName + ".txt";
+        		try(FileWriter fw = new FileWriter(fileName, false)) {
+        			facade.salvaJogo(fw);
+        		} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+        		JOptionPane.showMessageDialog(null, "Jogo salvo com sucesso.", "Concluído", 1);
+        	}
 		}
-		return;
 	}
 	
 	public void mouseEntered(MouseEvent e) {}
@@ -219,7 +238,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	public class TratadorDePromocao implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (e.getActionCommand().toString()) {
+			switch (e.getActionCommand()) {
 			case "Rainha":
 				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.RAINHA);
 				break;

@@ -1,17 +1,21 @@
 package model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import common.Cor;
 import common.Observer;
 import common.TiposPeca;
+import controller.Controller;
 
 public class ModelFacade {
 	public static ModelFacade mf = null;
 	private Tabuleiro tb; // pega o static tabuleiro
 	Jogador jogador1, jogador2;
 	Partida partida;
+	String sb;;
 	
 	private ModelFacade() {
 		tb = Tabuleiro.getTabuleiro();
@@ -75,10 +79,49 @@ public class ModelFacade {
 			return null;
 		return peca.getMovimentosValidos();
 	}
+	
+	boolean isXequeMate() {
+		List<Peca> pecas = tb.getAllPecas();
+		for (Peca peca: pecas) {
+			System.out.println("peca");
+			System.out.println(peca);
+			System.out.println(peca.getMovimentosValidos());
+			if(partida.getJogadorDaVez().getCor() == peca.getCor() && peca.getMovimentosValidos().size() > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
 		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
 		partida.passaVez();
+		boolean xequeMate = this.isXequeMate();
+		System.out.println("xeque mate");
+		System.out.println(xequeMate);
+		if (xequeMate) {
+			System.out.println("entrou");
+			Controller.getInstance().mostraDialogoReiniciaJogo(partida.getJogadorDaVez().getNome() == partida.getJogador1().getNome() ? partida.getJogador2().getNome() : partida.getJogador1().getNome());
+		}
+	}
+	
+	public void salvaJogo(FileWriter fw) {
+		sb = new String();
+		String jogadorVez = partida.getJogadorDaVez().nome; 
+		sb += jogadorVez;
+		List<List<Object>> dispoPecas = getDisposicaoPecas();
+		dispoPecas.forEach(item -> sb += "\n" + item);
+		try {
+			fw.write(sb.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void carregaPartida(String nomeJogadorAtual, List<List<Object>> disposicaoPecas) {
+		partida.setJogadorDaVez(nomeJogadorAtual);
+		tb.setDisposicaoPecas(disposicaoPecas);
 	}
 
 //	public static void main(String[] args) {

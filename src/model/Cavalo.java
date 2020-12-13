@@ -12,19 +12,6 @@ class Cavalo extends Peca {
 		super(TiposPeca.CAVALO,cor, x, y);
 	}
 	
-	private boolean getMovimentoValidoPos(int xCavalo, int yCavalo, Casa[][] tabCasas) {
-		if (xCavalo > 7 || yCavalo > 7 || xCavalo < 0 || yCavalo < 0) {
-			return false;
-		}
-		if(tabCasas[xCavalo][yCavalo].getPeca() == null) {
-			return true;
-		}
-		if(tabCasas[xCavalo][yCavalo].getPeca().getCor() != this.getCor()) {
-			return true;
-		}
-		return false;
-	}
-	
 	private List<List<Integer>> getCasas(int x, int y, Casa[][] tabCasas) {
         List<List<Integer>> listOfLists = new ArrayList<>();
         
@@ -156,19 +143,33 @@ class Cavalo extends Peca {
         	}
         }
         
-        System.out.println(listOfLists);
-        
         return listOfLists;
         
 	}
 
+	private Rei getRei() {
+		Tabuleiro t = Tabuleiro.getTabuleiro();
+		List<Peca> pecas = t.getAllPecas();
+		for (Peca peca: pecas) {
+			if(peca instanceof Rei) {
+				return (Rei) peca;
+			}
+		}
+		return null;
+	}
+	
 	public List<List<Integer>> getMovimentosValidos() {
 		List<List<Integer>> movimentosValidos = new ArrayList<>();
 		int xCavalo = this.x;
 		int yCavalo = this.y;
 		Tabuleiro t = Tabuleiro.getTabuleiro();
+
+		final Rei rei = this.getRei();
+		
 		
 		movimentosValidos.addAll(this.getCasas(xCavalo, yCavalo, t.getCasas()));
+		movimentosValidos.removeIf(mov -> t.getCasas()[mov.get(0)][mov.get(1)].getPeca() instanceof Rei);
+		movimentosValidos.removeIf(mov -> t.verificaMovimentoTiraDoXeque(this.getX(), this.getY(), mov.get(0), mov.get(1)));
 		
 		return movimentosValidos;
 	}

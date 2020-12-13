@@ -26,9 +26,15 @@ class Partida {
 		this.jogador2 = jogador2;
 	}
 	protected void passaVez() {
+		
 		if(this.jogadorDaVez == jogador1)
 			this.jogadorDaVez = jogador2;
 		else
 			this.jogadorDaVez = jogador1;
+	}
+
+	protected void setJogadorDaVez(String nome) {
+		if(!this.jogadorDaVez.nome.equals(nome))
+			passaVez();
 	}
 }

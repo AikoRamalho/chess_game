@@ -172,6 +172,8 @@ class Bispo extends Peca {
 		movimentosValidos.addAll(this.getCasasDiagonalDireitaInferior(xBispo, yBispo, t.getCasas()));
 		movimentosValidos.addAll(this.getCasasDiagonalEsquerdaSuperior(xBispo, yBispo, t.getCasas()));
 		movimentosValidos.addAll(this.getCasasDiagonalEsquerdaInferior(xBispo, yBispo, t.getCasas()));
+		movimentosValidos.removeIf(mov -> t.getCasas()[mov.get(0)][mov.get(1)].getPeca() instanceof Rei);
+		movimentosValidos.removeIf(mov -> t.verificaMovimentoTiraDoXeque(this.getX(), this.getY(), mov.get(0), mov.get(1)));
 		return movimentosValidos;
 	}
 
