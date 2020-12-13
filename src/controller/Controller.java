@@ -76,6 +76,7 @@ public class Controller {
 				innerList.add(arr[1]);
 				innerList.add(arr[2]);
 				innerList.add(arr[3]);
+				innerList.add(arr[4]);
 				listOfList.add(innerList);
 			}
 		} catch (FileNotFoundException e) {
