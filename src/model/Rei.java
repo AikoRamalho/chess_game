@@ -295,13 +295,119 @@ class Rei extends Peca {
 		boolean reiChequePorPeao = checaSePeaoChecouRei(xRei, yRei, tabCasas);
 		
 		// cavalo checando o rei
+		boolean reiChequePorCavalo = this.checaSeCavaloChecouRei(xRei, yRei, tabCasas);
 		
 		//ainda falta checar se tem um rei checando o rei mas vamos deixar isso p deois
 		
-		return yPositivo && yNegativo && xPositivoYPositivo && xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo && reiChequePorPeao && xPositivo && xNegativo;
+		return yPositivo || yNegativo || xPositivoYPositivo ||
+				xNegativoYPositivo || xNegativoYNegativo || xPositivoYNegativo ||
+				reiChequePorPeao || xPositivo || xNegativo || reiChequePorCavalo;
+		
+	}
+	
+	boolean isChecked (int x, int y) {
+		int xRei = x;
+		int yRei = y;
+		Tabuleiro t = Tabuleiro.getTabuleiro();
+		
+		if (t == null) {
+			return false;
+		}
+		
+		Casa[][] tabCasas = t.getCasas();	
+
+		// Vamos come�ar verificando variando em y [0, 7]
+		boolean yPositivo = this.xequeSuperior(xRei, yRei, tabCasas);
+		boolean yNegativo = this.xequeInferior(xRei, yRei, tabCasas);
+		
+		// verificar entre x [0, 7]
+		boolean xPositivo = this.xequeDiagonalDireitaInferior(xRei, yRei, tabCasas);
+		boolean xNegativo = this.xequeDiagonalEsquerdaSuperior(xRei, yRei, tabCasas);
+		
+		// checar todas as diagonais
+		boolean xPositivoYPositivo = this.xequeDiagonalDireitaSuperior(xRei, yRei, tabCasas);
+		boolean xNegativoYPositivo = this.xequeDiagonalEsquerdaSuperior(xRei, yRei, tabCasas);
+		boolean xNegativoYNegativo = this.xequeDiagonalEsquerdaInferior(xRei, yRei, tabCasas);
+		boolean xPositivoYNegativo = this.xequeDiagonalDireitaInferior(xRei, yRei, tabCasas);
+		
+		//checar se tem pe�o checando o rei
+		boolean reiChequePorPeao = checaSePeaoChecouRei(xRei, yRei, tabCasas);
+		
+		// cavalo checando o rei
+		boolean reiChequePorCavalo = this.checaSeCavaloChecouRei(xRei, yRei, tabCasas);
+		
+		//ainda falta checar se tem um rei checando o rei mas vamos deixar isso p deois
+		
+		return yPositivo && yNegativo && xPositivoYPositivo &&
+				xNegativoYPositivo && xNegativoYNegativo && xPositivoYNegativo &&
+				reiChequePorPeao && xPositivo && xNegativo && reiChequePorCavalo;
 		
 	}
 		
+	
+	
+	private boolean checaSeCavaloChecouRei(int xRei, int yRei, Casa[][] tabCasas) {
+		if(yRei+2 < 8 && xRei+1 < 8) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei+1][yRei+2].getPeca() != null && 
+			   tabCasas[xRei+1][yRei+2].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei+1][yRei+2].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei+1 < 8 && xRei+2 < 8) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei+2][yRei+1].getPeca() != null && 
+			   tabCasas[xRei+2][yRei+1].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei+2][yRei+1].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei-1 >= 0 && xRei+2 < 8) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei+2][yRei-1].getPeca() != null && 
+			   tabCasas[xRei+2][yRei-1].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei+2][yRei-1].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei-2 >= 0 && xRei+1 < 8) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei+1][yRei-2].getPeca() != null && 
+			   tabCasas[xRei+1][yRei-2].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei+1][yRei-2].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei-2 >= 0 && xRei-1 >= 0) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei-1][yRei-2].getPeca() != null && 
+			   tabCasas[xRei-1][yRei-2].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei-1][yRei-2].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei-1 >= 0 && xRei-2 >= 0) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei-2][yRei-1].getPeca() != null && 
+			   tabCasas[xRei-2][yRei-1].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei-2][yRei-1].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei+1 < 8 && xRei-2 >= 0) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei-2][yRei+1].getPeca() != null && 
+			   tabCasas[xRei-2][yRei+1].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei-2][yRei+1].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		if(yRei+2 < 8 && xRei-1 >= 0) { // se a casa de cima do tabuleiro ainda estiver no tabuleiro
+			if(tabCasas[xRei-1][yRei+2].getPeca() != null && 
+			   tabCasas[xRei-1][yRei+2].getPeca().getCor() != this.getCor() && 
+			   tabCasas[xRei-1][yRei+2].getPeca() instanceof Cavalo ) { // se a peca do lado direito na casa de cima for um peao preto
+				return true; // o rei esta em cheque
+			}
+		}
+		
+		return false;
+	}
+	
+	
 	
 	private boolean posicaoColocaReiEmCheque(int x, int y) {
 		Tabuleiro t = Tabuleiro.getTabuleiro();
@@ -587,6 +693,8 @@ class Rei extends Peca {
 		listOfLists.add(getRoquePequeno(t.getCasas()));
 		listOfLists.add(getRoqueLongo(t.getCasas()));
 		listOfLists.removeIf(mov -> mov.size() == 0 || posicaoColocaReiEmCheque(mov.get(0),mov.get(1)));
+		listOfLists.removeIf(mov -> t.getCasas()[mov.get(0)][mov.get(1)].getPeca() instanceof Rei);
+		listOfLists.removeIf(mov -> t.verificaMovimentoTiraDoXeque(this.getX(), this.getY(), mov.get(0), mov.get(1)));
 		return listOfLists;
 	}
 	

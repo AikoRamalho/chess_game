@@ -113,6 +113,9 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	}
 	
 	private void marcaMovimentosValidos(List<List<Integer>> movimentos) {
+		if (movimentos == null) {
+			return;
+		}
 		for(List<Integer> mov: movimentos) {
 			// Talvez tenha que inverter
 			if(mov.size() > 0) {				

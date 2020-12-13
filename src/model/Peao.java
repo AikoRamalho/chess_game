@@ -128,6 +128,9 @@ class Peao extends Peca {
 		Tabuleiro t = Tabuleiro.getTabuleiro();
 		
 		movimentosValidos.addAll(this.getCasas(xPeao, yPeao, t.getCasas()));
+		movimentosValidos.removeIf(mov -> t.getCasas()[mov.get(0)][mov.get(1)].getPeca() instanceof Rei);
+		movimentosValidos.removeIf(mov -> t.verificaMovimentoTiraDoXeque(this.getX(), this.getY(), mov.get(0), mov.get(1)));
+		
 		
 		return movimentosValidos;
 	}
