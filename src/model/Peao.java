@@ -160,7 +160,6 @@ class Peao extends Peca {
 	public boolean movimentoValido(int xDestino, int yDestino)
 	{
 		super.movimentoValido(xDestino, yDestino);
-		System.out.println("aaaaaaaa");
 		return true;
 	}
 	*/

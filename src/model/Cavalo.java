@@ -143,8 +143,6 @@ class Cavalo extends Peca {
         	}
         }
         
-        System.out.println(listOfLists);
-        
         return listOfLists;
         
 	}

@@ -176,6 +176,8 @@ class Tabuleiro implements Observable {
 		}
 	}
 	
+	
+	
 	Rei getRei(Cor corPecaPraMover) {
 		List<Peca> pecas = staticTabuleiro.getAllPecas();
 		for (Peca peca: pecas) {

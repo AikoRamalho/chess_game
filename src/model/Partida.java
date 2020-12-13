@@ -26,6 +26,7 @@ class Partida {
 		this.jogador2 = jogador2;
 	}
 	protected void passaVez() {
+		
 		if(this.jogadorDaVez == jogador1)
 			this.jogadorDaVez = jogador2;
 		else

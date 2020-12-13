@@ -164,7 +164,6 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		ctrl.reiniciaJogo();
 	}
 	
-	// TODO: Aplicar a logica do jogo usando o Facade.
 	public void mouseClicked(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {			
 			int x=e.getX()/(int)ladoRetangulo;

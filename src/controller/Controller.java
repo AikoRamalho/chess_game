@@ -42,7 +42,7 @@ public class Controller {
 	
 	// Seta ambos os jogadores, nome da funcao talvez nao seja o melhor possivel.
 	public void iniciaPartida() {
-		ctrl.facade.setPartida("p1", "p2");
+		ctrl.facade.setPartida("Jogador Azul", "Jogador Roxo");
 	}
 	
 	// Distribui as pecas, nome da funcao talvez nao seja o melhor possivel.

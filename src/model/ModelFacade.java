@@ -8,6 +8,7 @@ import java.util.List;
 import common.Cor;
 import common.Observer;
 import common.TiposPeca;
+import controller.Controller;
 
 public class ModelFacade {
 	public static ModelFacade mf = null;
@@ -78,10 +79,30 @@ public class ModelFacade {
 			return null;
 		return peca.getMovimentosValidos();
 	}
+	
+	boolean isXequeMate() {
+		List<Peca> pecas = tb.getAllPecas();
+		for (Peca peca: pecas) {
+			System.out.println("peca");
+			System.out.println(peca);
+			System.out.println(peca.getMovimentosValidos());
+			if(partida.getJogadorDaVez().getCor() == peca.getCor() && peca.getMovimentosValidos().size() > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
 		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
 		partida.passaVez();
+		boolean xequeMate = this.isXequeMate();
+		System.out.println("xeque mate");
+		System.out.println(xequeMate);
+		if (xequeMate) {
+			System.out.println("entrou");
+			Controller.getInstance().mostraDialogoReiniciaJogo(partida.getJogadorDaVez().getNome() == partida.getJogador1().getNome() ? partida.getJogador2().getNome() : partida.getJogador1().getNome());
+		}
 	}
 	
 	public void salvaJogo(FileWriter fw) {
