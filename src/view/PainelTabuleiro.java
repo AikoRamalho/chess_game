@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import common.Cor;
 import common.Observable;
@@ -21,6 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,10 +197,24 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 				this.desmarcaMovimentosValidos();
 				pecaSelecionada = null;
 			}
-		} else if(SwingUtilities.isRightMouseButton(e)) {
-			// TODO: continuar em futura iteracao
+		} else if(SwingUtilities.isRightMouseButton(e)) { //salvar jogo
+		
 			JFileChooser jFileChooser = new JFileChooser();
-        	int result = jFileChooser.showOpenDialog(new JFrame());
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text"); //filtro .txt
+			jFileChooser.setFileFilter(filter);
+        	int result = jFileChooser.showSaveDialog(new JFrame());
+        	if(result == JFileChooser.APPROVE_OPTION) {
+        		File file = jFileChooser.getSelectedFile();
+        		String fileName = file + ".txt";
+        		try(FileWriter fw = new FileWriter(fileName)) {
+        			facade.salvaJogo(fw);
+        		    fw.close();
+        		} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+        		JOptionPane.showMessageDialog(null, "Jogo salvo com sucesso.", "Concluído", 1);
+        	}
 		}
 		return;
 	}

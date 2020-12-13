@@ -1,5 +1,7 @@
 package model;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class ModelFacade {
 	private Tabuleiro tb; // pega o static tabuleiro
 	Jogador jogador1, jogador2;
 	Partida partida;
+	String sb;;
 	
 	private ModelFacade() {
 		tb = Tabuleiro.getTabuleiro();
@@ -79,6 +82,20 @@ public class ModelFacade {
 	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
 		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
 		partida.passaVez();
+	}
+	
+	public void salvaJogo(FileWriter fw) {
+		sb = new String();
+		String jogadorVez = partida.getJogadorDaVez().nome; 
+		sb += jogadorVez;
+		List<List<Object>> dispoPecas = getDisposicaoPecas();
+		dispoPecas.forEach(item -> sb += "\n" + item);
+		try {
+			fw.write(sb.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 //	public static void main(String[] args) {
