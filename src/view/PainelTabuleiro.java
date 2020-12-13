@@ -205,18 +205,17 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
         	int result = jFileChooser.showSaveDialog(new JFrame());
         	if(result == JFileChooser.APPROVE_OPTION) {
         		File file = jFileChooser.getSelectedFile();
-        		String fileName = file + ".txt";
-        		try(FileWriter fw = new FileWriter(fileName)) {
+        		String fileName = file.getAbsolutePath();
+        		if(!fileName.endsWith(".txt"))
+        			fileName = fileName + ".txt";
+        		try(FileWriter fw = new FileWriter(fileName, false)) {
         			facade.salvaJogo(fw);
-        		    fw.close();
         		} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
         		JOptionPane.showMessageDialog(null, "Jogo salvo com sucesso.", "Concluído", 1);
         	}
 		}
-		return;
 	}
 	
 	public void mouseEntered(MouseEvent e) {}
@@ -240,7 +239,7 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 	public class TratadorDePromocao implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			switch (e.getActionCommand().toString()) {
+			switch (e.getActionCommand()) {
 			case "Rainha":
 				Controller.getInstance().resultadoSelecaoPromocao(TiposPeca.RAINHA);
 				break;

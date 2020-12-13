@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 
 import javax.swing.JFrame;
 
@@ -12,7 +13,7 @@ public class FrameTabuleiro extends JFrame {
 	public final int LARG_DEFAULT=560+18;
 	public final int ALT_DEFAULT=560+41;
 	
-	public FrameTabuleiro() {
+	public FrameTabuleiro(File arquivoLoad) {
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		Dimension screenSize=tk.getScreenSize();
 		int sl=screenSize.width;
@@ -25,6 +26,6 @@ public class FrameTabuleiro extends JFrame {
 		
 		getContentPane().add(new PainelTabuleiro(this));
 		Controller.getInstance().iniciaTabuleiro();
-		//		ModelFacade.getInstance().iniciaPartida();
+		if(arquivoLoad != null) Controller.getInstance().carregaJogo(arquivoLoad);
 	}
 }
