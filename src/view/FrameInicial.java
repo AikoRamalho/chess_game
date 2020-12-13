@@ -73,8 +73,9 @@ public class FrameInicial extends JFrame implements ActionListener {
         	}
         }
 	}
-	
+/*
 	public static void main(String[] args) {    	
 		new FrameInicial().setVisible(true);
 	}
+	*/
 }
