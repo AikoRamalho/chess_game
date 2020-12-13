@@ -80,28 +80,32 @@ public class ModelFacade {
 		return peca.getMovimentosValidos();
 	}
 	
-	boolean isXequeMate() {
+	String isXequeMate() {
 		List<Peca> pecas = tb.getAllPecas();
+		Rei rei = tb.getRei(partida.getJogadorDaVez().getCor());
 		for (Peca peca: pecas) {
-			System.out.println("peca");
-			System.out.println(peca);
-			System.out.println(peca.getMovimentosValidos());
+			
 			if(partida.getJogadorDaVez().getCor() == peca.getCor() && peca.getMovimentosValidos().size() > 0) {
-				return false;
+				return "nao";
 			}
 		}
-		return true;
+		if(rei.isChecked()) {			
+			return "xeque-mate";
+		}else {
+			return "congelado";
+		}
 	}
 
 	public void movePecaDePara(int xAtual, int yAtual, int xPara, int yPara) {
 		tb.movePecaDePara(xAtual, yAtual, xPara, yPara);
 		partida.passaVez();
-		boolean xequeMate = this.isXequeMate();
-		System.out.println("xeque mate");
-		System.out.println(xequeMate);
-		if (xequeMate) {
-			System.out.println("entrou");
-			Controller.getInstance().mostraDialogoReiniciaJogo(partida.getJogadorDaVez().getNome() == partida.getJogador1().getNome() ? partida.getJogador2().getNome() : partida.getJogador1().getNome());
+		String retorno = this.isXequeMate();
+		if (retorno == "xeque-mate") {
+			Controller.getInstance().mostraDialogoReiniciaJogo(false, partida.getJogadorDaVez().getNome() == partida.getJogador1().getNome() ? partida.getJogador2().getNome() : partida.getJogador1().getNome());
+		}else if (retorno == "congelado") {
+			Controller.getInstance().mostraDialogoReiniciaJogo(true, partida.getJogadorDaVez().getNome() == partida.getJogador1().getNome() ? partida.getJogador2().getNome() : partida.getJogador1().getNome());
+		}else {
+			
 		}
 	}
 	

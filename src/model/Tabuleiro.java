@@ -178,7 +178,7 @@ class Tabuleiro implements Observable {
 	
 	
 	
-	Rei getRei(Cor corPecaPraMover) {
+	public Rei getRei(Cor corPecaPraMover) {
 		List<Peca> pecas = staticTabuleiro.getAllPecas();
 		for (Peca peca: pecas) {
 			if(peca instanceof Rei && peca.getCor() == corPecaPraMover) {
@@ -186,7 +186,6 @@ class Tabuleiro implements Observable {
 			}
 		}
 		return null;
-		
 	}
 	
 	public boolean verificaMovimentoTiraDoXeque(int xAtual, int yAtual, int xPara, int yPara) {
