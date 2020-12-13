@@ -8,7 +8,6 @@ import common.Cor;
 import common.TiposPeca;
 
 class Rei extends Peca {
-	private boolean jaMovimentou = false;
 	private boolean Roque = false;
 	public Rei(Cor cor, int x, int y) {
 		super(TiposPeca.REI,cor, x, y);
@@ -553,7 +552,7 @@ class Rei extends Peca {
 	private List<Integer> getRoquePequeno(Casa[][] tabCasas) {
 		List<Integer> innerList = new ArrayList<>();
 		// nao esta em xeque e nao se movimentou ainda
-		if(!isChecked() && jaMovimentou == false) { 
+		if(!isChecked() && this.isJaMovimentou() == false) { 
 			if(this.getCor() == Cor.BRANCO) {
 				// é torre e nao foi movimentada ainda
 				if(tabCasas[7][0].getPeca() instanceof Torre && 
@@ -594,7 +593,7 @@ class Rei extends Peca {
 	private List<Integer> getRoqueLongo(Casa[][] tabCasas) {
 		List<Integer> innerList = new ArrayList<>();
 		// nao esta em xeque e nao se movimentou ainda
-		if(!isChecked() && jaMovimentou == false) { 
+		if(!isChecked() && this.isJaMovimentou() == false) { 
 			if(this.getCor() == Cor.BRANCO) {
 				// é torre e nao foi movimentada ainda
 				if(tabCasas[0][0].getPeca() instanceof Torre && 
@@ -658,10 +657,6 @@ class Rei extends Peca {
 		return listOfLists;
 	}
 	
-	public boolean isJaMovimentou() {
-		return jaMovimentou;
-	}
-	
 	public boolean isRoque(int x, int y) {
 		Tabuleiro t = Tabuleiro.getTabuleiro();
 		List<List<Integer>> listOfLists = new ArrayList<>();
@@ -674,14 +669,6 @@ class Rei extends Peca {
 			}
 		}
 		return false;	
-	}
-		
-	@Override
-	public void movePara(int x, int y) {
-		if(!this.jaMovimentou)
-			this.jaMovimentou = true;
-		this.setX(x);
-		this.setY(y);
 	}
 
 	@Override

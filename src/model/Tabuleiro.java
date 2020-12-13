@@ -288,6 +288,7 @@ class Tabuleiro implements Observable {
 			innerList.add(peca.getY());
 			innerList.add(peca.getTipo());
 			innerList.add(peca.getCor());
+			innerList.add(peca.isJaMovimentou());
 			listOfLists.add(innerList);
 		}
 		return listOfLists;
@@ -333,7 +334,9 @@ class Tabuleiro implements Observable {
 			int y = Integer.parseInt((String) lst.get(1));
 			TiposPeca tipo = TiposPeca.valueOf((String) lst.get(2));
 			Cor cor = Cor.valueOf((String) lst.get(3));
+			boolean movimentou = Boolean.parseBoolean((String) lst.get(4));
 			casas[x][y].setPeca(tipo, cor);
+			casas[x][y].getPeca().setJaMovimentou(movimentou);
 		}
 		
 		for(Observer o:lob) {
