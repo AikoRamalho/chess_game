@@ -225,9 +225,9 @@ class Tabuleiro implements Observable {
 			pecaParaMover.movePara(xPara, yPara);
 			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
 			boolean valorDeRetorno = rei.isChecked();
-			staticTabuleiro.casas[xPara][xPara].setPeca(pecaParaCapturar);
-			pecaParaMover.movePara(xAtual, xAtual);
-			staticTabuleiro.casas[xAtual][xAtual].setPeca(pecaParaMover);
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaCapturar);
+			pecaParaMover.movePara(xAtual, yAtual);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
 			return valorDeRetorno;
 		}
 		return false;
