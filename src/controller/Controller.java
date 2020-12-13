@@ -50,8 +50,8 @@ public class Controller {
 		ctrl.facade.iniciaPartida();
 	}
 	
-	public void mostraDialogoReiniciaJogo(String nomeVencedor) {
-		ctrl.painel.mostraDialogoVencedorFechaJogo(nomeVencedor);
+	public void mostraDialogoReiniciaJogo(boolean empate, String nomeVencedor) {
+		ctrl.painel.mostraDialogoVencedorFechaJogo(empate, nomeVencedor);
 	}
 	
 	public void reiniciaJogo() {

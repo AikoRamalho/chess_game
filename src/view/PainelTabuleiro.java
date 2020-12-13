@@ -158,8 +158,12 @@ public class PainelTabuleiro extends JPanel implements MouseListener, Observer {
 		promocaoPopup.show(this, (int)celula.getX(), (int)celula.getY());
 	}
 	
-	public void mostraDialogoVencedorFechaJogo(String nomeVencedor) {
-		JOptionPane.showMessageDialog(this, "Vencedor: " + nomeVencedor, "Resultado", JOptionPane.INFORMATION_MESSAGE);
+	public void mostraDialogoVencedorFechaJogo(boolean empate, String nomeVencedor) {
+		if(empate) {
+			JOptionPane.showMessageDialog(this, "Empate!");
+		}else {			
+			JOptionPane.showMessageDialog(this, "Vencedor: " + nomeVencedor, "Resultado", JOptionPane.INFORMATION_MESSAGE);
+		}
 		container.dispose();
 		ctrl.reiniciaJogo();
 	}
