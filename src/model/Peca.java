@@ -65,6 +65,11 @@ class Peca {
 		this.setY(y);
 	}
 	
+	public void mockPara(int x, int y) {
+		this.setX(x);
+		this.setY(y);
+	}
+	
 	public boolean movimentoValido(int xDestino, int yDestino)
 	{
 		List<List<Integer>> movimentosValidos = this.getMovimentosValidos();

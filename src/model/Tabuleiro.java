@@ -188,50 +188,75 @@ class Tabuleiro implements Observable {
 		return null;
 	}
 	
+//	public boolean verificaMovimentoTiraDoXeque(int xAtual, int yAtual, int xPara, int yPara) {
+//		Peca pecaParaMover = staticTabuleiro.getPeca(xAtual, yAtual);
+//		Rei rei = staticTabuleiro.getRei(pecaParaMover.getCor());
+//		Peca pecaParaCapturar = staticTabuleiro.getPeca(xPara, yPara);
+//		if(pecaParaCapturar == null) { // posicao vazia
+//			// é roque
+//			if(staticTabuleiro.casas[xAtual][yAtual].getPeca() instanceof Rei &&
+//					((Rei)staticTabuleiro.casas[xAtual][yAtual].getPeca()).isRoque(xPara,yPara)) {
+//				if(xPara == 6) { // roque curto
+//					Torre torre = (Torre)staticTabuleiro.casas[7][yPara].getPeca();
+//					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+//					pecaParaMover.movePara(xPara, yPara);
+//					staticTabuleiro.casas[xPara-1][yPara].setPeca(torre);
+//					torre.movePara(xPara-1, yPara);
+//					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+//				} else { // roque longo
+//					Torre torre = (Torre)staticTabuleiro.casas[0][yPara].getPeca();
+//					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+//					pecaParaMover.movePara(xPara, yPara);
+//					staticTabuleiro.casas[xPara+1][yPara].setPeca(torre);
+//					torre.movePara(xPara+1, yPara);
+//					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+//				}
+//			} else {
+//				staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+//				pecaParaMover.movePara(xPara, yPara);
+//				staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+//				boolean valorDeRetorno = rei.isChecked();
+//				staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
+//				pecaParaMover.movePara(xAtual, yAtual);
+//				staticTabuleiro.casas[xPara][yPara].setPeca(null);
+//				return valorDeRetorno;
+//			}			
+//		} else {
+//			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+//			pecaParaMover.movePara(xPara, yPara);
+//			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+//			boolean valorDeRetorno = rei.isChecked();
+//			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaCapturar);
+//			pecaParaMover.movePara(xAtual, yAtual);
+//			staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
+//			return valorDeRetorno;
+//		}
+//		return false;
+//	}
+	
 	public boolean verificaMovimentoTiraDoXeque(int xAtual, int yAtual, int xPara, int yPara) {
 		Peca pecaParaMover = staticTabuleiro.getPeca(xAtual, yAtual);
 		Rei rei = staticTabuleiro.getRei(pecaParaMover.getCor());
 		Peca pecaParaCapturar = staticTabuleiro.getPeca(xPara, yPara);
 		if(pecaParaCapturar == null) { // posicao vazia
-			// é roque
-			if(staticTabuleiro.casas[xAtual][yAtual].getPeca() instanceof Rei &&
-					((Rei)staticTabuleiro.casas[xAtual][yAtual].getPeca()).isRoque(xPara,yPara)) {
-				if(xPara == 6) { // roque curto
-					Torre torre = (Torre)staticTabuleiro.casas[7][yPara].getPeca();
-					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-					pecaParaMover.movePara(xPara, yPara);
-					staticTabuleiro.casas[xPara-1][yPara].setPeca(torre);
-					torre.movePara(xPara-1, yPara);
-					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
-				} else { // roque longo
-					Torre torre = (Torre)staticTabuleiro.casas[0][yPara].getPeca();
-					staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-					pecaParaMover.movePara(xPara, yPara);
-					staticTabuleiro.casas[xPara+1][yPara].setPeca(torre);
-					torre.movePara(xPara+1, yPara);
-					staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
-				}
-			} else {
-				staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-				pecaParaMover.movePara(xPara, yPara);
-				staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
-				boolean valorDeRetorno = rei.isChecked();
-				staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
-				pecaParaMover.movePara(xAtual, yAtual);
-				staticTabuleiro.casas[xPara][yPara].setPeca(null);
-				return valorDeRetorno;
-			}			
+			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
+			pecaParaMover.mockPara(xPara, yPara);
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
+			boolean valorDeRetorno = rei.isChecked();
+			staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
+			pecaParaMover.mockPara(xAtual, yAtual);
+			staticTabuleiro.casas[xPara][yPara].setPeca(null);
+			return valorDeRetorno;	
 		} else {
 			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaMover);
-			pecaParaMover.movePara(xPara, yPara);
+			pecaParaMover.mockPara(xPara, yPara);
 			staticTabuleiro.casas[xAtual][yAtual].setPeca(null);
 			boolean valorDeRetorno = rei.isChecked();
 			staticTabuleiro.casas[xPara][yPara].setPeca(pecaParaCapturar);
-			pecaParaMover.movePara(xAtual, yAtual);
+			pecaParaMover.mockPara(xAtual, yAtual);
 			staticTabuleiro.casas[xAtual][yAtual].setPeca(pecaParaMover);
 			return valorDeRetorno;
 		}
-		return false;
 	}
 	
 	public Peca getPeca(int x, int y) {
